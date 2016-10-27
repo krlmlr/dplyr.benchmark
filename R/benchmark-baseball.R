@@ -1,6 +1,8 @@
+library(magrittr)
+
 pre_code <- ~{
   ## ---- echo = FALSE, message = FALSE--------------------------------------
-  devtools::load_all()
+  devtools::load_all(quiet = TRUE)
   library(data.table)
   library(dtplyr)
   library(Lahman)
