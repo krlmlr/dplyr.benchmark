@@ -23,6 +23,8 @@ pre_code <- ~{
 }
 
 code <- ~{
+  calibration = ~as.character(runif(1e6))
+
   ## ----summarise-mean------------------------------------------------------
   summarise_mean = lazyeval::dots_capture(
     dplyr_df = batting_df %>% group_by(playerID) %>% summarise(ab = mean(AB)),
@@ -82,7 +84,7 @@ code <- ~{
     regular  = batting_df %>% group_by(playerID) %>% mutate(r = min_rank_(AB))
   )
 
-  ## ------------------------------------------------------------------------
+  ## ---join-----------------------------------------------------------------
   left_join = lazyeval::dots_capture(
     dplyr_df = left_join(master_df, hall_of_fame_df, by = "playerID"),
     dplyr_dt = left_join(master_dt, hall_of_fame_dt, by = "playerID"),
