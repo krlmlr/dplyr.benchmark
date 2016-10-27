@@ -107,6 +107,12 @@ code <- ~{
     dplyr_dt = anti_join(master_dt, hall_of_fame_dt, by = "playerID")
   )
 
+  ## ---bind_rows------------------------------------------------------------
+  bind_rows = lazyeval::dots_capture(
+    dplyr_df = bind_rows(batting_df, batting_df),
+    base = rbind(batting_df, batting_df)
+  )
+
 }
 
 extract_quoted_calls <- function(code) {
