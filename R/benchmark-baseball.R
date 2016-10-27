@@ -15,7 +15,7 @@ batting_df <- tbl_df(Batting)
 batting_dt <- tbl_dt(Batting)
 
 ## ----summarise-mean------------------------------------------------------
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = batting_df %>% group_by(playerID) %>% summarise(ab = mean(AB)),
   dplyr_dt = batting_dt %>% group_by(playerID) %>% summarise(ab = mean(AB)),
   dt_raw =   batting_dt[, list(ab = mean(AB)), by = playerID],
@@ -25,7 +25,7 @@ microbenchmark(
 
 ## ----sumarise-mean_------------------------------------------------------
 mean_ <- function(x) .Internal(mean(x))
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = batting_df %>% group_by(playerID) %>% summarise(ab = mean_(AB)),
   dplyr_dt = batting_dt %>% group_by(playerID) %>% summarise(ab = mean_(AB)),
   dt_raw =   batting_dt[, list(ab = mean_(AB)), by = playerID],
@@ -34,7 +34,7 @@ microbenchmark(
 )
 
 ## ----arrange-------------------------------------------------------------
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = batting_df %>% arrange(playerID, yearID),
   dplyr_dt = batting_dt %>% arrange(playerID, yearID),
   dt_raw =   setkey(copy(batting_dt), playerID, yearID),
@@ -43,7 +43,7 @@ microbenchmark(
 )
 
 ## ----filter--------------------------------------------------------------
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = batting_df %>% group_by(playerID) %>% filter(G == max(G)),
   dplyr_dt = batting_dt %>% group_by(playerID) %>% filter(G == max(G)),
   dt_raw   = batting_dt[batting_dt[, .I[G == max(G)], by = playerID]$V1],
@@ -53,7 +53,7 @@ microbenchmark(
 )
 
 ## ----mutate--------------------------------------------------------------
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df  = batting_df %>% group_by(playerID) %>% mutate(r = rank(desc(AB))),
   dplyr_dt  = batting_dt %>% group_by(playerID) %>% mutate(r = rank(desc(AB))),
   dt_raw =    copy(batting_dt)[, rank := rank(desc(AB)), by = playerID],
@@ -61,7 +61,7 @@ microbenchmark(
 )
 
 ## ----mutate2-------------------------------------------------------------
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = batting_df %>% group_by(playerID) %>%
     mutate(cyear = yearID - min(yearID) + 1),
   dplyr_dt = batting_dt %>% group_by(playerID) %>%
@@ -73,7 +73,7 @@ microbenchmark(
 
 ## ----mutate_hybrid-------------------------------------------------------
 min_rank_ <- min_rank
-microbenchmark(
+lazyeval::dots_capture(
   hybrid  = batting_df %>% group_by(playerID) %>% mutate(r = min_rank(AB)),
   regular  = batting_df %>% group_by(playerID) %>% mutate(r = min_rank_(AB)),
   times = 2
@@ -89,27 +89,27 @@ hall_of_fame_dt <- tbl_dt(HallOfFame) %>% filter(inducted == "Y") %>%
   select(playerID, votedBy, category)
 
 ## ------------------------------------------------------------------------
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = left_join(master_df, hall_of_fame_df, by = "playerID"),
   dplyr_dt = left_join(master_dt, hall_of_fame_dt, by = "playerID"),
   base     = merge(master_df, hall_of_fame_df, by = "playerID", all.x = TRUE),
   times = 10
 )
 
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = inner_join(master_df, hall_of_fame_df, by = "playerID"),
   dplyr_dt = inner_join(master_dt, hall_of_fame_dt, by = "playerID"),
   base     = merge(master_df, hall_of_fame_df, by = "playerID"),
   times = 10
 )
 
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = semi_join(master_df, hall_of_fame_df, by = "playerID"),
   dplyr_dt = semi_join(master_dt, hall_of_fame_dt, by = "playerID"),
   times = 10
 )
 
-microbenchmark(
+lazyeval::dots_capture(
   dplyr_df = anti_join(master_df, hall_of_fame_df, by = "playerID"),
   dplyr_dt = anti_join(master_dt, hall_of_fame_dt, by = "playerID"),
   times = 10
