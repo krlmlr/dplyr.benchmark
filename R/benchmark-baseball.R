@@ -175,3 +175,6 @@ r <- git2r::repository()
 sha <- git2r::branch_target(git2r::head(r))
 
 write.csv(mb_tidy, file.path("benchmark", paste0(sha, ".csv")))
+cat("Done: ", sha, "\n", sep = "")
+
+print(sessionInfo())
