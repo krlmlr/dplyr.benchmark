@@ -26,7 +26,7 @@ master_dt <- tbl_dt(Master) %>% select(playerID, birthYear)
 hall_of_fame_dt <- tbl_dt(HallOfFame) %>% filter(inducted == "Y") %>%
   select(playerID, votedBy, category)
 
-~{
+code <- ~{
   ## ----summarise-mean------------------------------------------------------
   summarise_mean = lazyeval::dots_capture(
     dplyr_df = batting_df %>% group_by(playerID) %>% summarise(ab = mean(AB)),
@@ -110,3 +110,11 @@ hall_of_fame_dt <- tbl_dt(HallOfFame) %>% filter(inducted == "Y") %>%
   )
 
 }
+
+expression_list <- as.list(code[[2]])[-1]
+operators <- lapply(expression_list, "[[", 1) # should all be `=`
+call_names <- lapply(expression_list, "[[", 2) %>% vapply(as.character, character(1)) # name objects
+calls <- lapply(expression_list, "[[", 3) %>% lapply(eval) # calls
+names(calls) <- call_names
+
+single_calls <- unlist(calls)
