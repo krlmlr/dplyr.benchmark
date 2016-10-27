@@ -145,13 +145,25 @@ cv <- run_covr(pre_code, quoted_calls)
 
 run_microbenchmark <- function(pre_code, quoted_calls) {
   eval(pre_code[[2]])
-  microbenchmark::microbenchmark(list = quoted_calls, times = 10)
+  lapply(
+    quoted_calls,
+    function(call) {
+      tryCatch(
+        microbenchmark::microbenchmark(list = list(call), times = 2),
+        error = function(e) tibble::tribble(~expr, ~time)
+      )
+    }
+  )
 }
 
 system.time(mb <- run_microbenchmark(pre_code, quoted_calls))
 
 mb %>%
-  group_by(expr) %>%
+  tibble::enframe %>%
+  mutate(name = forcats::fct_inorder(name)) %>%
+  tidyr::unnest %>%
+  select(-expr) %>%
+  group_by(name) %>%
   summarize(median_time = median(time)) %>%
   ungroup %>%
   mutate(calibrated_time = median_time / median_time[[1]])
