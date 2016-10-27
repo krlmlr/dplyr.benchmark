@@ -1,6 +1,6 @@
 pre_code <- ~{
   ## ---- echo = FALSE, message = FALSE--------------------------------------
-  library(dplyr)
+  devtools::load_all()
   library(data.table)
   library(dtplyr)
   library(Lahman)
