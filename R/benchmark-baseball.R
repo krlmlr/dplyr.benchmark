@@ -162,9 +162,9 @@ system.time(mb <- run_microbenchmark(pre_code, quoted_calls))
 
 mb_tidy <-
   mb %>%
-  tibble::enframe %>%
+  tibble::enframe() %>%
   mutate(name = forcats::fct_inorder(name)) %>%
-  tidyr::unnest %>%
+  tidyr::unnest() %>%
   select(-expr) %>%
   group_by(name) %>%
   summarize(median_time = median(time)) %>%
