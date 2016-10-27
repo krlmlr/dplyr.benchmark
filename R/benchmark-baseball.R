@@ -128,3 +128,10 @@ run_covr <- function(pre_code, quoted_calls) {
 }
 
 cv <- run_covr(pre_code, quoted_calls)
+
+run_microbenchmark <- function(pre_code, quoted_calls) {
+  eval(pre_code[[2]])
+  microbenchmark::microbenchmark(list = quoted_calls)
+}
+
+run_microbenchmark(pre_code, quoted_calls)
