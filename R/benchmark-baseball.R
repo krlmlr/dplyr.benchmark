@@ -19,13 +19,13 @@ pre_code <- ~{
   mean_ <- function(x) .Internal(mean(x))
   min_rank_ <- min_rank
 
-  master_df <- tbl_df(Master) %>% select(playerID, birthYear)
-  hall_of_fame_df <- tbl_df(HallOfFame) %>% filter(inducted == "Y") %>%
-    select(playerID, votedBy, category)
+  master_df <- tbl_df(Master[c("playerID", "birthYear")])
+  hall_of_fame_df <- tbl_df(HallOfFame[HallOfFame$inducted == "Y",
+                                       c("playerID", "votedBy", "category")])
 
-  master_dt <- tbl_dt(Master) %>% select(playerID, birthYear)
-  hall_of_fame_dt <- tbl_dt(HallOfFame) %>% filter(inducted == "Y") %>%
-    select(playerID, votedBy, category)
+  master_dt <- tbl_dt(Master[c("playerID", "birthYear")])
+  hall_of_fame_dt <- tbl_dt(HallOfFame[HallOfFame$inducted == "Y",
+                                       c("playerID", "votedBy", "category")])
 }
 
 code <- ~{
