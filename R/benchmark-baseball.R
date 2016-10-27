@@ -10,8 +10,6 @@ knitr::opts_chunk$set(
   tidy = FALSE
 )
 
-options(digits = 3, microbenchmark.unit = "ms")
-
 ## ----setup---------------------------------------------------------------
 batting_df <- tbl_df(Batting)
 batting_dt <- tbl_dt(Batting)
