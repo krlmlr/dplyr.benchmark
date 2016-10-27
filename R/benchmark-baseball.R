@@ -141,7 +141,7 @@ run_covr <- function(pre_code, quoted_calls) {
   covr::package_coverage(type = "none", code = full_code, quiet = FALSE, line_exclusions = line_exclusions)
 }
 
-cv <- run_covr(pre_code, quoted_calls)
+#cv <- run_covr(pre_code, quoted_calls)
 
 run_microbenchmark <- function(pre_code, quoted_calls) {
   eval(pre_code[[2]])
