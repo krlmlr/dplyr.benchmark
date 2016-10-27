@@ -111,10 +111,15 @@ code <- ~{
 
 }
 
-expression_list <- as.list(code[[2]])[-1]
-operators <- lapply(expression_list, "[[", 1) # should all be `=`
-call_names <- lapply(expression_list, "[[", 2) %>% vapply(as.character, character(1)) # name objects
-calls <- lapply(expression_list, "[[", 3) %>% lapply(eval) # calls
-names(calls) <- call_names
+extract_quoted_calls <- function(code) {
+  expression_list <- as.list(code[[2]])[-1]
+  call_names <- lapply(expression_list, "[[", 2) %>% vapply(as.character, character(1)) # name objects
+  calls <- lapply(expression_list, "[[", 3) %>% lapply(eval) # calls
+  names(calls) <- call_names
 
-single_calls <- unlist(calls)
+  single_calls <- unlist(calls)
+  lapply(single_calls, "[[", 2)
+}
+
+quoted_calls <- extract_quoted_calls(code)
+
