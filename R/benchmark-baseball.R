@@ -158,7 +158,8 @@ run_microbenchmark <- function(pre_code, quoted_calls) {
 
 system.time(mb <- run_microbenchmark(pre_code, quoted_calls))
 
-mb %>%
+mb_tidy <-
+  mb %>%
   tibble::enframe %>%
   mutate(name = forcats::fct_inorder(name)) %>%
   tidyr::unnest %>%
@@ -167,3 +168,8 @@ mb %>%
   summarize(median_time = median(time)) %>%
   ungroup %>%
   mutate(calibrated_time = median_time / median_time[[1]])
+
+r <- git2r::repository()
+sha <- git2r::branch_target(git2r::head(r))
+
+write.csv(mb_tidy, file.path("benchmark", paste0(sha, ".csv")))
