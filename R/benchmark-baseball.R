@@ -1,15 +1,9 @@
 pre_code <- ~{
   ## ---- echo = FALSE, message = FALSE--------------------------------------
   library(dplyr)
-  library(microbenchmark)
   library(data.table)
   library(dtplyr)
   library(Lahman)
-  knitr::opts_chunk$set(
-    comment = "#>",
-    error = FALSE,
-    tidy = FALSE
-  )
 
   ## ----setup---------------------------------------------------------------
   batting_df <- tbl_df(Batting)
