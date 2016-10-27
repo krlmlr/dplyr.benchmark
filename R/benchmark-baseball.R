@@ -148,4 +148,10 @@ run_microbenchmark <- function(pre_code, quoted_calls) {
   microbenchmark::microbenchmark(list = quoted_calls, times = 10)
 }
 
-run_microbenchmark(pre_code, quoted_calls)
+system.time(mb <- run_microbenchmark(pre_code, quoted_calls))
+
+mb %>%
+  group_by(expr) %>%
+  summarize(median_time = median(time)) %>%
+  ungroup %>%
+  mutate(calibrated_time = median_time / median_time[[1]])
