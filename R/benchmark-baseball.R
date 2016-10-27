@@ -14,8 +14,21 @@ knitr::opts_chunk$set(
 batting_df <- tbl_df(Batting)
 batting_dt <- tbl_dt(Batting)
 
+## ------------------------------------------------------------------------
+mean_ <- function(x) .Internal(mean(x))
+min_rank_ <- min_rank
+
+master_df <- tbl_df(Master) %>% select(playerID, birthYear)
+hall_of_fame_df <- tbl_df(HallOfFame) %>% filter(inducted == "Y") %>%
+  select(playerID, votedBy, category)
+
+master_dt <- tbl_dt(Master) %>% select(playerID, birthYear)
+hall_of_fame_dt <- tbl_dt(HallOfFame) %>% filter(inducted == "Y") %>%
+  select(playerID, votedBy, category)
+
+~{
 ## ----summarise-mean------------------------------------------------------
-lazyeval::dots_capture(
+summarise_mean = lazyeval::dots_capture(
   dplyr_df = batting_df %>% group_by(playerID) %>% summarise(ab = mean(AB)),
   dplyr_dt = batting_dt %>% group_by(playerID) %>% summarise(ab = mean(AB)),
   dt_raw =   batting_dt[, list(ab = mean(AB)), by = playerID],
@@ -24,8 +37,7 @@ lazyeval::dots_capture(
 )
 
 ## ----sumarise-mean_------------------------------------------------------
-mean_ <- function(x) .Internal(mean(x))
-lazyeval::dots_capture(
+summarise_mean_reg = lazyeval::dots_capture(
   dplyr_df = batting_df %>% group_by(playerID) %>% summarise(ab = mean_(AB)),
   dplyr_dt = batting_dt %>% group_by(playerID) %>% summarise(ab = mean_(AB)),
   dt_raw =   batting_dt[, list(ab = mean_(AB)), by = playerID],
@@ -34,7 +46,7 @@ lazyeval::dots_capture(
 )
 
 ## ----arrange-------------------------------------------------------------
-lazyeval::dots_capture(
+arrange = lazyeval::dots_capture(
   dplyr_df = batting_df %>% arrange(playerID, yearID),
   dplyr_dt = batting_dt %>% arrange(playerID, yearID),
   dt_raw =   setkey(copy(batting_dt), playerID, yearID),
@@ -43,7 +55,7 @@ lazyeval::dots_capture(
 )
 
 ## ----filter--------------------------------------------------------------
-lazyeval::dots_capture(
+filter = lazyeval::dots_capture(
   dplyr_df = batting_df %>% group_by(playerID) %>% filter(G == max(G)),
   dplyr_dt = batting_dt %>% group_by(playerID) %>% filter(G == max(G)),
   dt_raw   = batting_dt[batting_dt[, .I[G == max(G)], by = playerID]$V1],
@@ -53,7 +65,7 @@ lazyeval::dots_capture(
 )
 
 ## ----mutate--------------------------------------------------------------
-lazyeval::dots_capture(
+mutate = lazyeval::dots_capture(
   dplyr_df  = batting_df %>% group_by(playerID) %>% mutate(r = rank(desc(AB))),
   dplyr_dt  = batting_dt %>% group_by(playerID) %>% mutate(r = rank(desc(AB))),
   dt_raw =    copy(batting_dt)[, rank := rank(desc(AB)), by = playerID],
@@ -61,7 +73,7 @@ lazyeval::dots_capture(
 )
 
 ## ----mutate2-------------------------------------------------------------
-lazyeval::dots_capture(
+mutate2 = lazyeval::dots_capture(
   dplyr_df = batting_df %>% group_by(playerID) %>%
     mutate(cyear = yearID - min(yearID) + 1),
   dplyr_dt = batting_dt %>% group_by(playerID) %>%
@@ -72,46 +84,40 @@ lazyeval::dots_capture(
 )
 
 ## ----mutate_hybrid-------------------------------------------------------
-min_rank_ <- min_rank
-lazyeval::dots_capture(
-  hybrid  = batting_df %>% group_by(playerID) %>% mutate(r = min_rank(AB)),
+windowed = lazyeval::dots_capture(
+  dplyr_df  = batting_df %>% group_by(playerID) %>% mutate(r = min_rank(AB))
+)
+
+windowed_reg = lazyeval::dots_capture(
   regular  = batting_df %>% group_by(playerID) %>% mutate(r = min_rank_(AB)),
   times = 2
 )
 
 ## ------------------------------------------------------------------------
-master_df <- tbl_df(Master) %>% select(playerID, birthYear)
-hall_of_fame_df <- tbl_df(HallOfFame) %>% filter(inducted == "Y") %>%
-  select(playerID, votedBy, category)
-
-master_dt <- tbl_dt(Master) %>% select(playerID, birthYear)
-hall_of_fame_dt <- tbl_dt(HallOfFame) %>% filter(inducted == "Y") %>%
-  select(playerID, votedBy, category)
-
-## ------------------------------------------------------------------------
-lazyeval::dots_capture(
+left_join = lazyeval::dots_capture(
   dplyr_df = left_join(master_df, hall_of_fame_df, by = "playerID"),
   dplyr_dt = left_join(master_dt, hall_of_fame_dt, by = "playerID"),
   base     = merge(master_df, hall_of_fame_df, by = "playerID", all.x = TRUE),
   times = 10
 )
 
-lazyeval::dots_capture(
+inner_join = lazyeval::dots_capture(
   dplyr_df = inner_join(master_df, hall_of_fame_df, by = "playerID"),
   dplyr_dt = inner_join(master_dt, hall_of_fame_dt, by = "playerID"),
   base     = merge(master_df, hall_of_fame_df, by = "playerID"),
   times = 10
 )
 
-lazyeval::dots_capture(
+semi_join = lazyeval::dots_capture(
   dplyr_df = semi_join(master_df, hall_of_fame_df, by = "playerID"),
   dplyr_dt = semi_join(master_dt, hall_of_fame_dt, by = "playerID"),
   times = 10
 )
 
-lazyeval::dots_capture(
+anti_join = lazyeval::dots_capture(
   dplyr_df = anti_join(master_df, hall_of_fame_df, by = "playerID"),
   dplyr_dt = anti_join(master_dt, hall_of_fame_dt, by = "playerID"),
   times = 10
 )
 
+}
