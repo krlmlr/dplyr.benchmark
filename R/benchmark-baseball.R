@@ -151,7 +151,7 @@ run_microbenchmark <- function(pre_code, quoted_calls) {
     quoted_calls,
     function(call) {
       tryCatch(
-        microbenchmark::microbenchmark(list = list(call), times = 2),
+        microbenchmark::microbenchmark(list = list(call), times = 7),
         error = function(e) tibble::tribble(~expr, ~time)
       )
     }
