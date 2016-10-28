@@ -1,7 +1,12 @@
-DPLYR_URL <- "https://github.com/hadley/dplyr.git"
-#DPLYR_URL <- "../dplyr"
+get_dplyr_repo_url <- function() {
+  if (dir.exists("../dplyr/.git")) {
+    DPLYR_URL <- "../dplyr"
+  } else {
+    DPLYR_URL <- "https://github.com/hadley/dplyr.git"
+  }
+}
 
-dplyr_repo_ <- eval(bquote(function(url = .(DPLYR_URL)) {
+dplyr_repo_ <- eval(bquote(function(url = get_dplyr_repo_url()) {
   temp_dir <- tempfile("dplyr")
 
   system2("git", c("clone", shQuote(url), "--bare", "--mirror",
