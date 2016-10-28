@@ -1,2 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.travis\.yml$
+^\.deploy_key\.pub$
+^\.deploy_key\.enc$
