@@ -1,4 +1,6 @@
 #' @importFrom magrittr %>%
+#' @import tibble
+#' @import dplyr
 NULL
 
 extract_quoted_calls <- function(code) {
