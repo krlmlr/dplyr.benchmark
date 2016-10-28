@@ -10,8 +10,10 @@ dplyr_repo_ <- function() {
   git2r::repository(temp_dir)
 }
 
+#' @export
 dplyr_repo <- memoise::memoise(dplyr_repo_)
 
+#' @export
 get_log_df <- function(ref = "master", repo = dplyr_repo()) {
   log <- get_log(ref, repo)
   log_to_df(log)
