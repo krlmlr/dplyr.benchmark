@@ -59,7 +59,7 @@ do_stuff <- function() {
     mutate(calibrated_time = median_time / median_time[[1]])
 
   r <- git2r::repository()
-  sha <- devtools:::git_repo_sha1(r)
+  sha <- devtools%:::%git_repo_sha1(r)
 
   write.csv(mb_tidy, file.path("benchmark", paste0(sha, ".csv")))
   cat("Done: ", sha, "\n", sep = "")
