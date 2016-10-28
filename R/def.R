@@ -115,3 +115,5 @@ code <- ~{
     base = rbind(batting_df, batting_df)
   )
 }
+
+#quoted_calls <- extract_quoted_calls(code)

@@ -1,4 +1,5 @@
-library(magrittr)
+#' @importFrom magrittr %>%
+NULL
 
 extract_quoted_calls <- function(code) {
   expression_list <- as.list(code[[2]])[-1]
@@ -9,8 +10,6 @@ extract_quoted_calls <- function(code) {
   single_calls <- unlist(calls)
   lapply(single_calls, "[[", 2)
 }
-
-quoted_calls <- extract_quoted_calls(code)
 
 # requires covr from GitHub to include C++ code
 run_covr <- function(pre_code, quoted_calls) {
@@ -41,23 +40,25 @@ run_microbenchmark <- function(pre_code, quoted_calls) {
   )
 }
 
-system.time(mb <- run_microbenchmark(pre_code, quoted_calls))
+do_stuff <- function() {
+  system.time(mb <- run_microbenchmark(pre_code, quoted_calls))
 
-mb_tidy <-
-  mb %>%
-  tibble::enframe() %>%
-  mutate(name = forcats::fct_inorder(name)) %>%
-  tidyr::unnest() %>%
-  select(-expr) %>%
-  group_by(name) %>%
-  summarize(median_time = median(time)) %>%
-  ungroup %>%
-  mutate(calibrated_time = median_time / median_time[[1]])
+  mb_tidy <-
+    mb %>%
+    tibble::enframe() %>%
+    mutate(name = forcats::fct_inorder(name)) %>%
+    tidyr::unnest() %>%
+    select(-expr) %>%
+    group_by(name) %>%
+    summarize(median_time = median(time)) %>%
+    ungroup %>%
+    mutate(calibrated_time = median_time / median_time[[1]])
 
-r <- git2r::repository()
-sha <- devtools:::git_repo_sha1(r)
+  r <- git2r::repository()
+  sha <- devtools:::git_repo_sha1(r)
 
-write.csv(mb_tidy, file.path("benchmark", paste0(sha, ".csv")))
-cat("Done: ", sha, "\n", sep = "")
+  write.csv(mb_tidy, file.path("benchmark", paste0(sha, ".csv")))
+  cat("Done: ", sha, "\n", sep = "")
 
-print(sessionInfo())
+  print(sessionInfo())
+}
