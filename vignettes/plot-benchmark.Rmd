@@ -12,7 +12,7 @@ library(dplyr)
 library(ggplot2)
 ```
 
-```{r cache = TRUE}
+```{r}
 log <- system2("git", c("log --format='%H %aI' --first-parent master --", r("src"), r("inst/include")), stdout = TRUE)
 
 log_df <-
@@ -28,7 +28,7 @@ log_df <-
 ```
 
 ```{r}
-csv_files <- dir(r("benchmark"), full.names = TRUE, pattern = glob2rx("*.csv"))
+csv_files <- dir(r("inst/benchmark"), full.names = TRUE, pattern = glob2rx("*.csv"))
 names(csv_files) <- gsub("^.*[^0-9a-f]([0-9a-f]+)[.]csv$", "\\1",
                          as.character(csv_files))
 csv_data <- lapply(csv_files, read.csv, row.names = NULL, stringsAsFactors = FALSE)
