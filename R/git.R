@@ -31,7 +31,7 @@ get_log_df <- function(ref = "master", repo = dplyr_repo()) {
 # git2r::commits() doesn't report time
 get_log <- function(ref, repo) {
   withr::with_dir(repo@path, {
-    system2("git", c("log --format='%H %aI' --first-parent", ref,
+    system2("git", c("log --format='%H %ai' --first-parent", ref,
                      "--", "src", "inst/include"),
             stdout = TRUE)
   })
