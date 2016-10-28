@@ -10,9 +10,18 @@ dplyr_repo_ <- eval(bquote(function(url = .(DPLYR_URL)) {
   git2r::repository(temp_dir)
 }))
 
+#' Get a dplyr repo
+#'
+#' @param url URL to dplyr repository
+#'
 #' @export
 dplyr_repo <- memoise::memoise(dplyr_repo_)
 
+#' Get a dataframe with dplyr log entries
+#'
+#' @param ref Git revision, default `master`
+#' @param repo A git2r repository, default from GitHub
+#'
 #' @export
 get_log_df <- function(ref = "master", repo = dplyr_repo()) {
   log <- get_log(ref, repo)
