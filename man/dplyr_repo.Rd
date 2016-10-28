@@ -4,7 +4,7 @@
 \alias{dplyr_repo}
 \title{Get a dplyr repo}
 \usage{
-dplyr_repo(url = "https://github.com/hadley/dplyr.git")
+dplyr_repo(url = get_dplyr_repo_url())
 }
 \arguments{
 \item{url}{URL to dplyr repository}
