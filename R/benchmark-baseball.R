@@ -1,6 +1,8 @@
 #' @importFrom magrittr %>%
 #' @import tibble
 #' @import dplyr
+#' @importFrom stats median time
+#' @importFrom utils sessionInfo write.csv
 NULL
 
 extract_quoted_calls <- function(code) {
