@@ -3,13 +3,14 @@ library(magrittr)
 pre_code <- ~{
   ## ---- echo = FALSE, message = FALSE--------------------------------------
   devtools::load_all(quiet = TRUE)
+  try(dplyr:::init_logging("NONE"))
   library(data.table)
-  library(dtplyr)
+  try(library(dtplyr))
   library(Lahman)
 
   ## ----setup---------------------------------------------------------------
   batting_df <- tbl_df(Batting)
-  batting_dt <- tbl_dt(Batting)
+  try(batting_dt <- tbl_dt(Batting))
 
   ## ------------------------------------------------------------------------
   mean_ <- function(x) .Internal(mean(x))
@@ -18,10 +19,11 @@ pre_code <- ~{
   master_df <- tbl_df(Master[c("playerID", "birthYear")])
   hall_of_fame_df <- tbl_df(HallOfFame[HallOfFame$inducted == "Y",
                                        c("playerID", "votedBy", "category")])
-
-  master_dt <- tbl_dt(Master[c("playerID", "birthYear")])
-  hall_of_fame_dt <- tbl_dt(HallOfFame[HallOfFame$inducted == "Y",
-                                       c("playerID", "votedBy", "category")])
+  try({
+    master_dt <- tbl_dt(Master[c("playerID", "birthYear")])
+    hall_of_fame_dt <- tbl_dt(HallOfFame[HallOfFame$inducted == "Y",
+                                         c("playerID", "votedBy", "category")])
+  })
 }
 
 code <- ~{
@@ -172,7 +174,7 @@ mb_tidy <-
   mutate(calibrated_time = median_time / median_time[[1]])
 
 r <- git2r::repository()
-sha <- git2r::branch_target(git2r::head(r))
+sha <- devtools:::git_repo_sha1(r)
 
 write.csv(mb_tidy, file.path("benchmark", paste0(sha, ".csv")))
 cat("Done: ", sha, "\n", sep = "")
