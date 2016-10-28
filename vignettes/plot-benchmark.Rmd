@@ -14,7 +14,7 @@ library(ggplot2)
 ```
 
 ```{r repo}
-repo <- dplyr_repo(r("../dplyr"))
+repo <- dplyr_repo()
 ```
 
 ```{r}
