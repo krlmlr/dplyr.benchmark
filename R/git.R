@@ -1,5 +1,5 @@
-#DPLYR_URL <- "https://github.com/hadley/dplyr.git"
-DPLYR_URL <- "../dplyr"
+DPLYR_URL <- "https://github.com/hadley/dplyr.git"
+#DPLYR_URL <- "../dplyr"
 
 dplyr_repo_ <- eval(bquote(function(url = .(DPLYR_URL)) {
   temp_dir <- tempfile("dplyr")
