@@ -36,20 +36,19 @@ get_log_df <- function(ref = "master", repo = dplyr_repo()) {
 # git2r::commits() doesn't report time
 get_log <- function(ref, repo) {
   withr::with_dir(repo@path, {
-    system2("git", c("log --format='%H %aI' --first-parent", ref,
+    system2("git", c("log --format='%H %ad' --date=iso --first-parent", ref,
                      "--", "src", "inst/include"),
             stdout = TRUE)
   })
 }
 
 log_to_df <- function(log) {
+  log_regex <- "^([^ ]+) (.*)$"
+
   log %>%
     rev %>%
-    strsplit(" ", fixed = TRUE) %>%
-    purrr::transpose() %>%
-    `names<-`(c("sha", "commit_time")) %>%
-    lapply(unlist) %>%
-    as_data_frame %>%
-    mutate(commit_time = anytime::anytime(commit_time)) %>%
-    mutate(commit_id = seq_along(commit_time))
+    enframe %>%
+    transmute(commit_id = name,
+              sha = gsub(log_regex, "\\1", value),
+              commit_time = gsub(log_regex, "\\2", value) %>% as.POSIXct(format = "%Y-%m-%d %T %z"))
 }
