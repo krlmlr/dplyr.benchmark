@@ -8,23 +8,13 @@ output:
 ```{r}
 r <- rprojroot::is_r_package$make_fix_file()
 
+library(dplyr.benchmark)
 library(dplyr)
 library(ggplot2)
 ```
 
 ```{r}
-log <- system2("git", c("log --format='%H %aI' --first-parent master --", r("src"), r("inst/include")), stdout = TRUE)
-
-log_df <-
-  log %>%
-  rev %>%
-  strsplit(" ", fixed = TRUE) %>%
-  purrr::transpose() %>%
-  `names<-`(c("sha", "commit_time")) %>% 
-  lapply(unlist) %>% 
-  as_data_frame %>% 
-  mutate(commit_time = as.POSIXct(commit_time)) %>% 
-  mutate(commit_id = seq_along(commit_time))
+log_df <- get_log_df()
 ```
 
 ```{r}
