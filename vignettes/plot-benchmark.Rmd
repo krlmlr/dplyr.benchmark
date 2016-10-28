@@ -13,8 +13,12 @@ library(dplyr)
 library(ggplot2)
 ```
 
+```{r repo}
+repo <- dplyr_repo(r("../dplyr"))
+```
+
 ```{r}
-log_df <- get_log_df()
+log_df <- get_log_df(repo = repo)
 ```
 
 ```{r}

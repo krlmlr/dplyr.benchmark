@@ -1,14 +1,14 @@
 #DPLYR_URL <- "https://github.com/hadley/dplyr.git"
 DPLYR_URL <- "../dplyr"
 
-dplyr_repo_ <- function() {
+dplyr_repo_ <- eval(bquote(function(url = .(DPLYR_URL)) {
   temp_dir <- tempfile("dplyr")
 
-  system2("git", c("clone", shQuote(DPLYR_URL), "--bare", "--mirror",
+  system2("git", c("clone", shQuote(url), "--bare", "--mirror",
                    shQuote(temp_dir)))
 
   git2r::repository(temp_dir)
-}
+}))
 
 #' @export
 dplyr_repo <- memoise::memoise(dplyr_repo_)
