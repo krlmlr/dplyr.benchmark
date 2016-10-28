@@ -5,3 +5,5 @@
 ^\.deploy_key\.enc$
 ^scripts/deploy-pages\.sh$
 ^_pkgdown\.yml$
+^README\.Rmd$
+^README-.*\.png$
