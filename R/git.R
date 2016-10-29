@@ -22,7 +22,7 @@ dplyr_repo_ <- eval(bquote(function(url = get_dplyr_repo_url()) {
 #' @export
 dplyr_repo <- memoise::memoise(dplyr_repo_)
 
-dplyr_clone <- function(ref, repo = dplyr_repo()) {
+dplyr_clone_ <- function(ref, repo = dplyr_repo()) {
   temp_dir <- tempfile("dplyr")
   on.exit(unlink(temp_dir, recursive = TRUE))
 
@@ -32,6 +32,8 @@ dplyr_clone <- function(ref, repo = dplyr_repo()) {
   on.exit(NULL)
   temp_dir
 }
+
+dplyr_clone <- memoise::memoise(dplyr_clone_)
 
 #' Get a dataframe with dplyr log entries
 #'
