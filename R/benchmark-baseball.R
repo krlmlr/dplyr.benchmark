@@ -44,7 +44,7 @@ run_microbenchmark <- function(pre_code, quoted_calls) {
   )
 }
 
-do_stuff <- function() {
+do_stuff <- ~{
   system.time(mb <- run_microbenchmark(pre_code, quoted_calls))
 
   mb_tidy <-
