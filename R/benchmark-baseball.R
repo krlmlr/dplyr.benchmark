@@ -17,22 +17,6 @@ extract_quoted_calls <- function(code) {
   lapply(single_calls, "[[", 2)
 }
 
-# requires covr from GitHub to include C++ code
-run_covr <- function(pre_code, quoted_calls) {
-  pre_code <- deparse(pre_code[[2]], width.cutoff = 500)
-  code <- vapply(quoted_calls, deparse, width.cutoff = 500, FUN.VALUE = character(1), USE.NAMES = FALSE)
-  full_code <- paste(c("{", pre_code, code, "}"), collapse = "\n")
-
-  line_exclusions <-dir(c("R", "inst/include"), recursive = TRUE, full.names = TRUE) %>%
-    `names<-`(., .) %>%
-    lapply(readLines) %>%
-    lapply(seq_along)
-
-  covr::package_coverage(type = "none", code = full_code, quiet = FALSE, line_exclusions = line_exclusions)
-}
-
-#cv <- run_covr(pre_code, quoted_calls)
-
 run_microbenchmark <- function(pre_code, quoted_calls) {
   eval(pre_code[[2]])
   lapply(

@@ -7,7 +7,7 @@ get_dplyr_repo_url <- function() {
 }
 
 dplyr_repo_ <- eval(bquote(function(url = get_dplyr_repo_url()) {
-  temp_dir <- tempfile("dplyr")
+  temp_dir <- tempfile("dplyr", fileext = ".git")
 
   system2("git", c("clone", shQuote(url), "--bare", "--mirror",
                    shQuote(temp_dir)))
@@ -21,6 +21,17 @@ dplyr_repo_ <- eval(bquote(function(url = get_dplyr_repo_url()) {
 #'
 #' @export
 dplyr_repo <- memoise::memoise(dplyr_repo_)
+
+dplyr_clone <- function(ref, repo = dplyr_repo()) {
+  temp_dir <- tempfile("dplyr")
+  on.exit(unlink(temp_dir, recursive = TRUE))
+
+  system2("git", c("clone", shQuote(repo@path), shQuote(temp_dir), "--no-checkout"))
+  withr::with_dir(temp_dir, system2("git", c("checkout", shQuote(ref))))
+
+  on.exit(NULL)
+  temp_dir
+}
 
 #' Get a dataframe with dplyr log entries
 #'
