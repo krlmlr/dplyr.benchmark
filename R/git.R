@@ -48,7 +48,7 @@ log_to_df <- function(log) {
   log %>%
     rev %>%
     enframe %>%
-    transmute(commit_id = name,
-              sha = gsub(log_regex, "\\1", value),
-              commit_time = gsub(log_regex, "\\2", value) %>% as.POSIXct(format = "%Y-%m-%d %T %z"))
+    transmute_(commit_id = ~name,
+               sha = ~gsub(log_regex, "\\1", value),
+               commit_time = ~gsub(log_regex, "\\2", value) %>% as.POSIXct(format = "%Y-%m-%d %T %z"))
 }

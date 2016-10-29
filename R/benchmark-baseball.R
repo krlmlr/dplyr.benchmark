@@ -2,8 +2,10 @@
 #' @import tibble
 #' @import dplyr
 #' @importFrom stats median time
-#' @importFrom utils sessionInfo write.csv
+#' @importFrom utils sessionInfo write.csv globalVariables
 NULL
+
+globalVariables(".")
 
 extract_quoted_calls <- function(code) {
   expression_list <- as.list(code[[2]])[-1]
