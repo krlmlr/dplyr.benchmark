@@ -124,3 +124,5 @@ extract_quoted_calls <- function(code) {
   single_calls <- unlist(calls)
   lapply(single_calls, "[[", 2)
 }
+
+quoted_calls <- extract_quoted_calls(code)

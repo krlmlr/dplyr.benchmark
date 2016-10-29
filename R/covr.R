@@ -7,7 +7,6 @@ run_covr <- function(ref = "master", repo = dplyr_repo()) {
 }
 
 get_covr_code <- function() {
-  quoted_calls <- extract_quoted_calls(code)
   pre_code <- deparse(pre_code[[2]], width.cutoff = 500)
   code <- vapply(quoted_calls, deparse, width.cutoff = 500, FUN.VALUE = character(1), USE.NAMES = FALSE)
   full_code <- paste(c("{", pre_code, code, "}"), collapse = "\n")
