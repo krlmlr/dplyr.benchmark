@@ -41,5 +41,6 @@ tidy_microbenchmark <- function(mb) {
 }
 
 write_microbenchmark <- function(mb_tidy, sha) {
-  write.csv(mb_tidy, file.path("inst", "benchmark", paste0(sha, ".csv")))
+  write.csv(mb_tidy, file.path("inst", "benchmark", paste0(sha, ".csv")),
+            row.names = FALSE)
 }
