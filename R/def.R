@@ -1,6 +1,5 @@
 pre_code <- ~{
   ## ---- echo = FALSE, message = FALSE--------------------------------------
-  devtools::load_all(quiet = TRUE)
   try(dplyr:::init_logging("NONE"))
   library(data.table)
   try(library(dtplyr))
