@@ -7,16 +7,6 @@ NULL
 
 globalVariables(".")
 
-extract_quoted_calls <- function(code) {
-  expression_list <- as.list(code[[2]])[-1]
-  call_names <- lapply(expression_list, "[[", 2) %>% vapply(as.character, character(1)) # name objects
-  calls <- lapply(expression_list, "[[", 3) %>% lapply(eval) # calls
-  names(calls) <- call_names
-
-  single_calls <- unlist(calls)
-  lapply(single_calls, "[[", 2)
-}
-
 run_microbenchmark <- function(pre_code, quoted_calls) {
   eval(pre_code[[2]])
   lapply(
