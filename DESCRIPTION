@@ -19,6 +19,7 @@ Imports:
     purrr,
     tibble,
     tidyr,
+    tsoutliers,
     withr
 Suggests: 
     anytime,

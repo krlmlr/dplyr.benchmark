@@ -21,10 +21,10 @@ plot_data <-
 ```
 
 ```{r}
-plot_data %>% 
-  ggplot(aes(x = commit_time, y = median_time / 1e9)) +
+plot_data %>%
+  ggplot(aes(x = commit_id, y = median_time / 1e9)) +
   geom_line() +
-  geom_point() +
+  geom_point(data = plot_data %>% filter(!is.na(type)), color = "red") +
   scale_y_continuous(limits = c(0, NA)) +
   facet_wrap(~name, scales = "free_y")
 ```
