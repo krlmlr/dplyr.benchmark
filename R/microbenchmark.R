@@ -35,7 +35,7 @@ get_microbenchmark_code <- function() {
     quoted_calls,
     function(call) {
       tryCatch(
-        microbenchmark::microbenchmark(list = list(call), times = 1),
+        microbenchmark::microbenchmark(list = list(call), times = 7),
         error = function(e) tibble::tribble(~expr, ~time)
       )
     }
