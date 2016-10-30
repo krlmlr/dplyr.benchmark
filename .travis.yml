@@ -17,6 +17,7 @@ addons:
     packages:
       - libmagick++-dev
       - libssh2-1-dev
+      - libgsl-dev
 
 # Matrix: 3x Linux, 1x OS X
 matrix:
