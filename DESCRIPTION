@@ -1,10 +1,27 @@
 Package: dplyr.benchmark
 Title: What the Package Does (one line, title case)
 Version: 0.0-0
-Authors@R: person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org")
+Authors@R: 
+    person(given = "Kirill",
+           family = "Müller",
+           role = c("aut", "cre"),
+           email = "krlmlr+r@mailbox.org")
 Description: What the package does (one paragraph).
-Imports: magrittr, memoise, tibble, dplyr, withr, git2r, microbenchmark, purrr, tidyr, covr, devtools, forcats
-Suggests: anytime,
+Imports: 
+    covr,
+    devtools,
+    dplyr,
+    forcats,
+    git2r,
+    magrittr,
+    memoise,
+    microbenchmark,
+    purrr,
+    tibble,
+    tidyr,
+    withr
+Suggests: 
+    anytime,
     knitr,
     rmarkdown,
     testthat
