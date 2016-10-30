@@ -58,5 +58,5 @@
     tryCatch(microbenchmark::microbenchmark(list = list(call), times = 7), error = function(e) tibble::tribble(~expr, 
       ~time))
   })
-  write.csv(mb, commandArgs(trailingOnly = TRUE)[[1]], row.names = FALSE)
+  saveRDS(mb, commandArgs(trailingOnly = TRUE)[[1]], compress = FALSE)
 }
