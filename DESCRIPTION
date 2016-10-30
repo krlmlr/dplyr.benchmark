@@ -23,6 +23,8 @@ Imports:
     withr
 Suggests: 
     anytime,
+    ggplot2,
+    ggrepel,
     knitr,
     rmarkdown,
     testthat
