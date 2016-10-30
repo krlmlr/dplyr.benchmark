@@ -12,6 +12,7 @@ Imports:
     devtools,
     dplyr,
     forcats,
+    formatR,
     git2r,
     magrittr,
     memoise,
