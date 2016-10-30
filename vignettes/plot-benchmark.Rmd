@@ -22,11 +22,17 @@ plot_data <-
 
 ```{r}
 plot_data %>%
-  ggplot(aes(x = commit_id, y = median_time / 1e9)) +
-  geom_line() +
-  geom_point(data = plot_data %>% filter(!is.na(type)), color = "red") +
-  scale_y_continuous(limits = c(0, NA)) +
-  facet_wrap(~name, scales = "free_y")
+  tidyr::nest(-name) %>%
+  purrr::by_row(
+    function(plot_data_slice) {
+      ggplot(plot_data_slice$data[[1]] %>% filter(!is.na(type)), aes(x = commit_id, y = median_time / 1e9)) +
+        geom_line(data = plot_data_slice$data[[1]]) +
+        geom_point(color = "red") +
+        ggrepel::geom_label_repel(aes(label = substr(sha, 1, 7)), color = "red", alpha = 0.5) +
+        scale_y_continuous(limits = c(0, NA)) +
+        ggtitle(plot_data_slice$name)
+    }) %>%
+  .$.out
 ```
 
 ```{r}
