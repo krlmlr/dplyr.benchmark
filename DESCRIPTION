@@ -32,8 +32,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Date: 2016-10-28
-URLNote: https://github.com/krlmlr/
-BugReports: https://github.com/krlmlr/
-URL: http://krlmlr.github.io/
+URL: https://github.com/krlmlr/dplyr.benchmark, http://krlmlr.github.io/dplyr.benchmark
+BugReports: https://github.com/krlmlr/dplyr.benchmark/issues
 RoxygenNote: 5.0.1.9000
 VignetteBuilder: knitr
