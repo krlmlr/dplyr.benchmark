@@ -34,11 +34,3 @@ plot_data %>%
     }) %>%
   .$.out
 ```
-
-```{r}
-plot_data %>%
-  filter(grepl("filter|mutate", name)) %>% 
-  ggplot(aes(x = commit_id, y = median_time / 1e9, color = name, group=name)) +
-  geom_line() +
-  geom_point()
-```
