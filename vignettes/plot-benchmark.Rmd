@@ -5,12 +5,13 @@ output:
   rmarkdown::html_document
 ---
 
-```{r}
+```{r echo = FALSE}
 r <- rprojroot::is_r_package$make_fix_file()
 
 library(dplyr.benchmark)
 library(dplyr)
 library(ggplot2)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
