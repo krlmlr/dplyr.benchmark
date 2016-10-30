@@ -1,6 +1,8 @@
 get_dplyr_repo_url <- function() {
   if (dir.exists("../dplyr/.git")) {
     DPLYR_URL <- "../dplyr"
+  } else if (dir.exists("../../dplyr/.git")) {
+    DPLYR_URL <- "../../dplyr"
   } else {
     DPLYR_URL <- "https://github.com/hadley/dplyr.git"
   }
