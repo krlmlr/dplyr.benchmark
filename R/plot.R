@@ -25,7 +25,7 @@ get_full_data <- function() {
 
 detect_jumps <- function(plot_data) {
   plot_data %>%
-    tidyr::nest(-name) %>%
+    tidyr::nest_(~-name) %>%
     mutate_(data = ~lapply(data, detect_jumps_one)) %>%
     tidyr::unnest()
 }
