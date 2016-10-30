@@ -42,5 +42,5 @@ detect_jumps_one <- function(data) {
   data %>%
     mutate_(ind = ~row_number()) %>%
     left_join(outliers, by = "ind") %>%
-    select(-ind)
+    select_(~-ind)
 }
