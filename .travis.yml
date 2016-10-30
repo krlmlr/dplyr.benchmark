@@ -50,7 +50,7 @@ deploy:
   provider: script
   script: scripts/deploy-pages.sh
   on:
-    branch: production
+    branch: master
 
 #after_success (run covr)
 after_success:
