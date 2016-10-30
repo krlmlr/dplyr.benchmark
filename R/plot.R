@@ -31,10 +31,10 @@ detect_jumps <- function(plot_data) {
 }
 
 detect_jumps_one <- function(data) {
-  data_ts <- ts(data$calibrated_time)
+  data_ts <- stats::ts(data$calibrated_time)
 
-  fit <- arima(data_ts, order = c(0L, 1L, 0L))
-  resid <- residuals(fit)
+  fit <- stats::arima(data_ts, order = c(0L, 1L, 0L))
+  resid <- stats::residuals(fit)
   pars <- tsoutliers::coefs2poly(fit)
 
   outliers <- tsoutliers::locate.outliers(resid, pars, types = "LS")
