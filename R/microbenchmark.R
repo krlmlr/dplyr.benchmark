@@ -49,6 +49,7 @@ get_microbenchmark_code <- function() {
 }
 
 tidy_microbenchmark <- function(mb) {
+  browser()
   mb %>%
     tibble::enframe() %>%
     mutate_(name = ~forcats::fct_inorder(name)) %>%
