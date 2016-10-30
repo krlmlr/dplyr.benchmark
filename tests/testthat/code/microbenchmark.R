@@ -55,7 +55,7 @@
       hall_of_fame_dt, by = "playerID")), bind_rows.dplyr_df = quote(bind_rows(batting_df, 
       batting_df)), bind_rows.base = quote(rbind(batting_df, batting_df)))
   mb <- lapply(quoted_calls, function(call) {
-    tryCatch(microbenchmark::microbenchmark(list = list(call), times = 1), error = function(e) tibble::tribble(~expr, 
+    tryCatch(microbenchmark::microbenchmark(list = list(call), times = 7), error = function(e) tibble::tribble(~expr, 
       ~time))
   })
   write.csv(mb, commandArgs(trailingOnly = TRUE)[[1]], row.names = FALSE)
