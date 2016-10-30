@@ -14,7 +14,7 @@ doc_dir=docs
 
 command=$1
 
-if [ "$DEPLOY_PAGES" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "production" ]; then
+if [ "$DEPLOY_PAGES" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
  if [ "$command" == "install" ]; then
   R -q -e 'devtools::install_github(c("hadley/pkgdown", "krlmlr/travis@develop"))'
  else
