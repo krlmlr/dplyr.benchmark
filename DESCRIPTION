@@ -16,6 +16,7 @@ Imports:
     git2r,
     magrittr,
     memoise,
+    methods,
     microbenchmark,
     purrr,
     tibble,
