@@ -19,17 +19,33 @@ run_microbenchmark <- function() {
 # Must run in a different process!!!
 # TODO: Write an .R file, run with R -f xxx.R, should save results somewhere
 do_run_microbenchmark <- function() {
-  devtools::load_all()
-  eval(pre_code[[2]])
-  lapply(
+}
+
+get_microbenchmark_code <- function() {
+  load_code <- "devtools::load_all()"
+  pre_code <- deparse(pre_code[[2]], width.cutoff = 500)
+  quoted_calls_code <- deparse(quoted_calls, width.cutoff = 500, control = "quoteExpressions")
+  microbenchmark_code <- deparse(quote(lapply(
     quoted_calls,
     function(call) {
       tryCatch(
-        microbenchmark::microbenchmark(list = list(call), times = 7),
+        microbenchmark::microbenchmark(list = list(call), times = 1),
         error = function(e) tibble::tribble(~expr, ~time)
       )
     }
-  )
+  )))
+  write_code <- deparse(quote(
+    write.csv(mb, commandArgs(trailingOnly = TRUE)[[1]], row.names = FALSE)))
+
+  full_code <- paste(
+    c("{", load_code, pre_code,
+      "quoted_calls <- ", quoted_calls_code,
+      "mb <- ", microbenchmark_code,
+      write_code,
+      "}"),
+    collapse = "\n")
+
+  indent_code(full_code)
 }
 
 tidy_microbenchmark <- function(mb) {
