@@ -10,7 +10,7 @@ get_covr_code <- function() {
   pre_code <- deparse(pre_code[[2]], width.cutoff = 500)
   code <- vapply(quoted_calls, deparse, width.cutoff = 500, FUN.VALUE = character(1), USE.NAMES = FALSE)
   full_code <- paste(c("{", pre_code, code, "}"), collapse = "\n")
-  full_code
+  indent_code(full_code)
 }
 
 do_run_covr <- function(full_code) {
