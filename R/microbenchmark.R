@@ -55,11 +55,10 @@ get_microbenchmark_code <- function() {
 }
 
 tidy_microbenchmark <- function(mb) {
-  browser()
   mb %>%
     tibble::enframe() %>%
     mutate_(name = ~forcats::fct_inorder(name)) %>%
-    mutate_(value = lapply(value, mutate_, expr = ~as.character(expr))) %>%
+    mutate_(value = ~lapply(value, mutate_, expr = ~as.character(expr))) %>%
     tidyr::unnest() %>%
     select(-expr) %>%
     group_by_(~name) %>%
