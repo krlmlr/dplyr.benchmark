@@ -24,15 +24,10 @@ matrix:
     - r: release
       env:
         - DEPLOY_PAGES=true
-      r_github_packages:
-        - hadley/pkgdown
-        - krlmlr/travis@develop
-      r_packages:
-        - covr
-        - roxygen2
+      before_script:
+        - scripts/deploy-pages.sh install
     - r: oldrel
     - r: devel
-      warnings_are_errors: false
     - os: osx
       osx_image: xcode7.2
       r: release
@@ -48,9 +43,15 @@ notifications:
     on_success: change
     on_failure: change
 
-#after_success (deploy to gh-pages and run covr)
+# deploy (to gh-pages)
+deploy:
+  provider: script
+  script: scripts/deploy-pages.sh
+  on:
+    branch: production
+
+#after_success (run covr)
 after_success:
-  - scripts/deploy-pages.sh
   - R -e 'covr::codecov()'
 
 # Custom parts:

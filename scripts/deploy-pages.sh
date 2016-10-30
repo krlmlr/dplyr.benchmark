@@ -12,9 +12,17 @@ doc_dir=docs
 # For local testing use:
 # TRAVIS_OS_NAME=linux TRAVIS_PULL_REQUEST=false TRAVIS_BRANCH=production TRAVIS_REPO_SLUG=rstats-db/DBI TRAVIS_COMMIT=$(git rev-parse HEAD) GITHUB_PAT=<your-PAT> scripts/deploy-pages.sh
 
-if [ "$DEPLOY_PAGES" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-  R -q -e "travis::deploy(tasks = c('travis::task_install_ssh_keys()'))"
+command=$1
+
+if [ "$DEPLOY_PAGES" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "production" ]; then
+ if [ "$command" == "install" ]; then
+  R -q -e 'devtools::install_github(c("hadley/pkgdown", "krlmlr/travis@develop"))'
+ else
+  R -q -e 'travis::deploy(tasks = c("travis::task_install_ssh_keys()"))'
   ssh git@github.com || true
+
+  # Install package
+  R CMD INSTALL .
 
   # Query name and e-mail of current author
   # https://gist.github.com/l15n/3103708
@@ -24,8 +32,15 @@ if [ "$DEPLOY_PAGES" ] && [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_PULL_RE
   rm -rf $doc_dir
   mkdir -p $doc_dir
 
+  clone_cmd="git clone --quiet git@github.com:${TRAVIS_REPO_SLUG}.git $doc_dir"
+
   # Clone the current docs.
-  git clone --quiet --branch=gh-pages git@github.com:${TRAVIS_REPO_SLUG}.git $doc_dir > /dev/null
+  if ! $clone_cmd --branch=gh-pages --single-branch; then
+    $clone_cmd
+    pushd $doc_dir
+    git checkout --orphan gh-pages
+    popd
+  fi
 
   # Clean current docs and build anew.
   echo -e "Building pkgdown...\n"
@@ -55,4 +70,5 @@ EOF
   git push --quiet origin gh-pages
 
   echo -e "Published pkgdown to gh-pages.\n"
+ fi
 fi
