@@ -13,33 +13,21 @@ library(dplyr)
 library(ggplot2)
 ```
 
+
 ```{r}
-log_df <- get_log_df()
+plot_data <- 
+  get_plot_data() %>%
+  filter_(~grepl("dplyr_df", name))
 ```
 
 ```{r}
-csv_files <- dir(r("inst/benchmark"), full.names = TRUE, pattern = glob2rx("*.csv"))
-names(csv_files) <- gsub("^.*[^0-9a-f]([0-9a-f]+)[.]csv$", "\\1",
-                         as.character(csv_files))
-csv_data <- lapply(csv_files, read.csv, row.names = NULL, stringsAsFactors = FALSE)
-full_data <- bind_rows(csv_data, .id = "sha")
-```
-
-```{r}
-plot_data <- log_df %>%
-  inner_join(full_data, by = "sha") %>%
-  filter(grepl("dplyr_df", name))
-```
-
-
-```{r}
-plot_data %>%
-  ggplot(aes(x = commit_time, y = median_time / 1e9, color = name, group = name)) +
+plot_data %>% 
+  ggplot(aes(x = commit_time, y = median_time / 1e9)) +
   geom_line() +
-  geom_point()
+  geom_point() +
+  scale_y_continuous(limits = c(0, NA)) +
+  facet_wrap(~name, scales = "free_y")
 ```
-
-
 
 ```{r}
 plot_data %>%
@@ -48,4 +36,3 @@ plot_data %>%
   geom_line() +
   geom_point()
 ```
-

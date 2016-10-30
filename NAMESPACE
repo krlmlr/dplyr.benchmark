@@ -2,6 +2,7 @@
 
 export(dplyr_repo)
 export(get_log_df)
+export(get_plot_data)
 import(dplyr)
 import(tibble)
 importFrom(magrittr,"%>%")
