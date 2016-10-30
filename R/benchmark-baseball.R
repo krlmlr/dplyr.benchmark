@@ -2,7 +2,7 @@
 #' @import tibble
 #' @import dplyr
 #' @importFrom stats median time
-#' @importFrom utils sessionInfo write.csv globalVariables
+#' @importFrom utils sessionInfo read.csv write.csv globalVariables glob2rx
 NULL
 
 globalVariables(".")
