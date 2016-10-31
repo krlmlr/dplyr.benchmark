@@ -23,6 +23,12 @@ get_full_data <- function() {
   tbl_df(full_data)
 }
 
+#' Detect jumps
+#'
+#' @param plot_data A data frame as returned by [plot_data()]
+#' @return `plot_data` augmented with columns provided by
+#'   [tsoutliers::locate.outliers()]
+#'
 #' @export
 detect_jumps <- function(plot_data) {
   plot_data %>%

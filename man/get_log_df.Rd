@@ -7,7 +7,7 @@
 get_log_df(ref = "master", repo = dplyr_repo())
 }
 \arguments{
-\item{ref}{Git revision, default `master`}
+\item{ref}{Git revision, default \code{master}}
 
 \item{repo}{A git2r repository, default from GitHub}
 }

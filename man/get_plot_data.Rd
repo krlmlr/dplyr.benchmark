@@ -7,7 +7,7 @@
 get_plot_data(ref = "master")
 }
 \arguments{
-\item{ref}{Git revision, default `master`}
+\item{ref}{Git revision, default \code{master}}
 }
 \description{
 Get plot data
