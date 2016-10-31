@@ -12,6 +12,7 @@ library(dplyr.benchmark)
 library(dplyr)
 library(ggplot2)
 knitr::opts_chunk$set(echo = FALSE)
+set.seed(20161031)
 ```
 
 
