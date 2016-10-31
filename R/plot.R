@@ -10,7 +10,7 @@ get_plot_data <- function(ref = "master") {
   plot_data <- log_df %>%
     inner_join(full_data, by = "sha")
 
-  detect_jumps(plot_data)
+  plot_data
 }
 
 get_full_data <- function() {
@@ -23,6 +23,7 @@ get_full_data <- function() {
   tbl_df(full_data)
 }
 
+#' @export
 detect_jumps <- function(plot_data) {
   plot_data %>%
     tidyr::nest_(~-name) %>%

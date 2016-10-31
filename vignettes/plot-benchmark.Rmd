@@ -18,7 +18,8 @@ knitr::opts_chunk$set(echo = FALSE)
 ```{r}
 plot_data <- 
   get_plot_data() %>%
-  filter_(~grepl("dplyr_df", name))
+  filter_(~grepl("dplyr_df", name)) %>%
+  detect_jumps
 ```
 
 ```{r}
