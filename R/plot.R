@@ -25,7 +25,7 @@ get_full_data <- function() {
 
 #' Detect jumps
 #'
-#' @param plot_data A data frame as returned by [plot_data()]
+#' @param plot_data A data frame as returned by [get_plot_data()]
 #' @return `plot_data` augmented with columns provided by
 #'   [tsoutliers::locate.outliers()]
 #'

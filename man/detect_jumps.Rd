@@ -7,7 +7,7 @@
 detect_jumps(plot_data)
 }
 \arguments{
-\item{plot_data}{A data frame as returned by \code{\link[=plot_data]{plot_data()}}}
+\item{plot_data}{A data frame as returned by \code{\link[=get_plot_data]{get_plot_data()}}}
 }
 \value{
 \code{plot_data} augmented with columns provided by
