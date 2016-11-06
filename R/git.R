@@ -11,8 +11,8 @@ get_dplyr_repo_url <- function() {
 dplyr_repo_ <- eval(bquote(function(url = get_dplyr_repo_url()) {
   temp_dir <- tempfile("dplyr", fileext = ".git")
 
-  system2("git", c("clone", shQuote(url), "--bare", "--mirror",
-                   shQuote(temp_dir)))
+  git("clone", shQuote(url), "--bare", "--mirror",
+      shQuote(temp_dir))
 
   git2r::repository(temp_dir)
 }))
@@ -28,8 +28,8 @@ dplyr_clone_ <- function(ref, repo = dplyr_repo()) {
   temp_dir <- tempfile("dplyr")
   on.exit(unlink(temp_dir, recursive = TRUE))
 
-  system2("git", c("clone", shQuote(repo@path), shQuote(temp_dir), "--no-checkout", "--no-single-branch"))
-  withr::with_dir(temp_dir, system2("git", c("checkout", shQuote(ref), "--")))
+  git("clone", shQuote(repo@path), shQuote(temp_dir), "--no-checkout", "--no-single-branch")
+  withr::with_dir(temp_dir, git("checkout", shQuote(ref), "--"))
 
   on.exit(NULL)
   temp_dir
@@ -66,4 +66,13 @@ log_to_df <- function(log) {
     transmute_(commit_id = ~name,
                sha = ~gsub(log_regex, "\\1", value),
                commit_time = ~gsub(log_regex, "\\2", value) %>% as.POSIXct(format = "%Y-%m-%d %T %z"))
+}
+
+git <- function(...) {
+  args <- c(...)
+  exit_code <- system2("git", args)
+  if (exit_code != 0) {
+    stop("git ", paste(args, collapse = " "), " returned with exit status ", exit_code,
+         call. = FALSE)
+  }
 }
