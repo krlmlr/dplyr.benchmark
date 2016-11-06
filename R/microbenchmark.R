@@ -17,7 +17,6 @@ run_microbenchmark <- function() {
 }
 
 # Must run in a different process!!!
-# TODO: Write an .R file, run with R -f xxx.R, should save results somewhere
 do_run_microbenchmark <- function() {
   code_file <- tempfile("microbenchmark", fileext = ".R")
   writeLines(get_microbenchmark_code(), code_file)
