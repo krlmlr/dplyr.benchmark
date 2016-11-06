@@ -28,8 +28,8 @@ dplyr_clone_ <- function(ref, repo = dplyr_repo()) {
   temp_dir <- tempfile("dplyr")
   on.exit(unlink(temp_dir, recursive = TRUE))
 
-  system2("git", c("clone", shQuote(repo@path), shQuote(temp_dir), "--no-checkout"))
-  withr::with_dir(temp_dir, system2("git", c("checkout", shQuote(ref))))
+  system2("git", c("clone", shQuote(repo@path), shQuote(temp_dir), "--no-checkout", "--no-single-branch"))
+  withr::with_dir(temp_dir, system2("git", c("checkout", shQuote(ref), "--")))
 
   on.exit(NULL)
   temp_dir
