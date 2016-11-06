@@ -7,3 +7,4 @@
 ^_pkgdown\.yml$
 ^README\.Rmd$
 ^README-.*\.png$
+^tic\.R$
