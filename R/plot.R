@@ -46,8 +46,36 @@ detect_jumps_one <- function(data) {
 
   outliers <- tsoutliers::locate.outliers(resid, pars, types = "LS")
 
-  data %>%
+  data_with_outliers <-
+    data %>%
     mutate_(ind = ~row_number()) %>%
-    left_join(outliers, by = "ind") %>%
-    select_(~-ind)
+    left_join(outliers, by = "ind")
+
+  data_kind <-
+    data_with_outliers %>%
+    transmute_(~ind, ~type, ~calibrated_time,
+               lag_calibrated_time = ~lag(calibrated_time)) %>%
+    filter_(~!is.na(type)) %>%
+    select_(~-type) %>%
+    mutate_(rising = ~lag_calibrated_time < calibrated_time) %>%
+    tidyr::gather_("key", "value", c("lag_calibrated_time", "calibrated_time")) %>%
+    transmute_(
+      ~rising,
+      ind = ~ifelse(key == "calibrated_time", ind, ind - 1L),
+      kind = ~ifelse(rising,
+                           ifelse(key == "calibrated_time", "hi", "lo"),
+                           ifelse(key == "calibrated_time", "lo", "hi")
+                           )) %>%
+    filter_(~!duplicated(ind))
+
+  out_data <-
+    data %>%
+    mutate_(ind = ~row_number()) %>%
+    left_join(data_kind, by = "ind")
+
+  out_data$kind[[1]] <- "b"
+  out_data$kind[[length(out_data$kind)]] <- "b"
+  out_data$kind <- factor(out_data$kind, levels = c("hi", "b", "lo"))
+
+  out_data
 }
