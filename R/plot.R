@@ -38,7 +38,7 @@ detect_jumps <- function(plot_data) {
 }
 
 detect_jumps_one <- function(data) {
-  data_ts <- stats::ts(data$calibrated_time)
+  data_ts <- log(stats::ts(data$calibrated_time))
 
   fit <- stats::arima(data_ts, order = c(0L, 1L, 0L))
   resid <- stats::residuals(fit)
