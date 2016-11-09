@@ -9,6 +9,9 @@ collect_data_in_clone(ref = "master", only_new = TRUE)
 \arguments{
 \item{ref}{\code{[character(1)]}\cr A Git refspec for dplyr revisions to test.
 See help for \code{git parse-rev}, use \code{ref^!} to collect for a single revision.}
+
+\item{only_new}{\code{[logical(1)]}\cr If \code{TRUE}, collect data for all references
+up to the first for which data has been collected already.}
 }
 \description{
 Performs the following tasks:

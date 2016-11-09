@@ -44,6 +44,8 @@ setup_git_config <- function(repo_dir) {
 #'
 #' @param ref `[character(1)]`\cr A Git refspec for dplyr revisions to test.
 #'   See help for `git parse-rev`, use `ref^!` to collect for a single revision.
+#' @param only_new `[logical(1)]`\cr If `TRUE`, collect data for all references
+#'   up to the first for which data has been collected already.
 #'
 #' @export
 collect_data_in_clone <- function(ref = "master", only_new = TRUE) {
@@ -51,7 +53,7 @@ collect_data_in_clone <- function(ref = "master", only_new = TRUE) {
   sha <- get_log_df(ref)$sha
 
   if (only_new) {
-    sha <- setdiff(sha, names(get_csv_files()))
+    sha <- get_only_new(sha)
   }
 
   if (length(sha) == 0) {
@@ -63,6 +65,16 @@ collect_data_in_clone <- function(ref = "master", only_new = TRUE) {
   withr::with_dir(repo@path, collect_data(sha))
   commit_data(repo, sha)
   push_data(repo)
+}
+
+get_only_new <- function(sha) {
+  sha <- rev(sha)
+  known_sha <- names(get_csv_files())
+  known_idx <- which(sha %in% known_sha)
+  if (length(known_idx) > 0) {
+    sha <- sha[seq_len(known_idx[[1]] - 1L)]
+  }
+  rev(sha)
 }
 
 collect_data <- function(sha) {
