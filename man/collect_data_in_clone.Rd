@@ -4,17 +4,18 @@
 \alias{collect_data_in_clone}
 \title{Automated data collection}
 \usage{
-collect_data_in_clone(refs = commandArgs(TRUE))
+collect_data_in_clone(ref = "master", only_new = TRUE)
 }
 \arguments{
-\item{refs}{\code{[character]}\cr Git references to collect benchmark data for}
+\item{ref}{\code{[character(1)]}\cr A Git refspec for dplyr revisions to test.
+See help for \code{git parse-rev}, use \code{ref^!} to collect for a single revision.}
 }
 \description{
 Performs the following tasks:
 \itemize{
 \item Clones the \code{dplyr.benchmark} repository to a temporary directory
-\item Collects benchmark data from the given references, by default taken from
-command-line args
+\item Collects benchmark data from the given references, by default all
+references in master that haven't been collected yet
 \item Commits and pushes
 }
 }
