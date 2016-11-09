@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • dplyr.benchmark</title>
+<title>Compute calibrated time — compute_calibrated_time • dplyr.benchmark</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -34,7 +34,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -69,60 +69,31 @@
       </header>
 
       <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Function reference</h1>
-      <h4>version&nbsp;0.0-0</h4>
+    <h1>Compute calibrated time</h1>
     </div>
 
-    <div class="contents">
-      <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-      <p class="section-desc"></p>
-
-      
-      <p><a href="collect_data_in_clone.html">Automated data collection</a></p>
-      <ul>
-        <li><code><a href="collect_data_in_clone.html">collect_data_in_clone</a></code></li>
-      </ul>
-      
-      <p><a href="compute_calibrated_time.html">Compute calibrated time</a></p>
-      <ul>
-        <li><code><a href="compute_calibrated_time.html">compute_calibrated_time</a></code></li>
-      </ul>
-      
-      <p><a href="detect_jumps.html">Detect jumps</a></p>
-      <ul>
-        <li><code><a href="detect_jumps.html">detect_jumps</a></code></li>
-      </ul>
-      
-      <p><a href="dplyr_benchmark_repo.html">Get a dplyr.benchmark repo</a></p>
-      <ul>
-        <li><code><a href="dplyr_benchmark_repo.html">dplyr_benchmark_repo</a></code></li>
-      </ul>
-      
-      <p><a href="dplyr_repo.html">Get a dplyr repo</a></p>
-      <ul>
-        <li><code><a href="dplyr_repo.html">dplyr_repo</a></code></li>
-      </ul>
-      
-      <p><a href="get_log_df.html">Get a dataframe with dplyr log entries</a></p>
-      <ul>
-        <li><code><a href="get_log_df.html">get_log_df</a></code></li>
-      </ul>
-      
-      <p><a href="get_plot_data.html">Get plot data</a></p>
-      <ul>
-        <li><code><a href="get_plot_data.html">get_plot_data</a></code></li>
-      </ul>
     
-    </div>
-  </div>
+    <p>Median time divided by the time the <code>calibration</code> run takes.</p>
+    
 
+    <pre><span class='fu'>compute_calibrated_time</span>(<span class='no'>data</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <dl class="dl-horizontal">
+      <dt>data</dt>
+      <dd>A data frame with at least the columns <code>name</code> and <code>median_time</code></dd>
+    </dl>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
+
   </div>
 </div>
 
