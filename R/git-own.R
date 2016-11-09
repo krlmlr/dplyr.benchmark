@@ -46,9 +46,9 @@ setup_git_config <- function(repo_dir) {
 #'   See help for `git parse-rev`, use `ref^!` to collect for a single revision.
 #'
 #' @export
-collect_data_in_clone <- function(refs = "master", only_new = TRUE) {
+collect_data_in_clone <- function(ref = "master", only_new = TRUE) {
   # Make sure bare repo is cloned only once
-  sha <- get_log(refs, dplyr_repo())
+  sha <- get_log_df(ref)$sha
 
   if (only_new) {
     sha <- setdiff(sha, names(get_csv_files()))
