@@ -34,7 +34,7 @@ setup_git_config <- function(repo_dir) {
 }
 
 #' @export
-collect_data_in_clone <- function(refs) {
+collect_data_in_clone <- function(refs = commandArgs(TRUE)) {
   repo <- dplyr_benchmark_repo()
   withr::with_dir(repo@path, collect_data(refs))
   commit_data(repo, refs)
