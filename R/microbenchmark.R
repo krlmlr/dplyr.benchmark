@@ -62,8 +62,7 @@ tidy_microbenchmark <- function(mb) {
     select_(~-expr) %>%
     group_by_(~name) %>%
     summarize_(median_time = ~median(time)) %>%
-    ungroup %>%
-    mutate_(calibrated_time = ~median_time / median_time[[1]])
+    ungroup
 }
 
 write_microbenchmark <- function(mb_tidy, pkg_dir) {
