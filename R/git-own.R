@@ -42,7 +42,9 @@ collect_data_in_clone <- function(refs) {
 }
 
 collect_data <- function(refs) {
-  lapply(refs, function(ref) try(benchmark(ref)))
+  parallel::mclapply(
+    refs, function(ref) try(benchmark(ref)),
+    mc.cores = parallel::detectCores() - 1)
 }
 
 commit_data <- function(repo, refs) {
