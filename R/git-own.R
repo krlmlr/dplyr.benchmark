@@ -61,7 +61,7 @@ collect_data_in_clone <- function(ref = "master", only_new = TRUE) {
   message("Testing revisions:", paste0(substr(sha, 1, 7), collapse = ", "))
   repo <- dplyr_benchmark_repo()
   withr::with_dir(repo@path, collect_data(sha))
-  commit_data(repo, refs)
+  commit_data(repo, sha)
   push_data(repo)
 }
 
