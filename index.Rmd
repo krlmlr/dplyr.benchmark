@@ -14,6 +14,7 @@ set.seed(20161031)
 ```{r}
 plot_data <- 
   get_plot_data() %>%
+  compute_calibrated_time %>%
   filter_(~grepl("dplyr_df", name)) %>%
   detect_jumps
 ```
@@ -23,7 +24,7 @@ plot_data %>%
   tidyr::nest(-name) %>%
   purrr::by_row(
     function(plot_data_slice) {
-      ggplot(plot_data_slice$data[[1]] %>% filter(!is.na(kind)), aes(x = commit_id, y = median_time / 1e9)) +
+      ggplot(plot_data_slice$data[[1]] %>% filter(!is.na(kind)), aes(x = commit_id, y = calibrated_time)) +
         geom_line(data = plot_data_slice$data[[1]]) +
         geom_point(aes(color = kind)) +
         ggrepel::geom_label_repel(aes(label = substr(sha, 1, 5), color = kind), alpha = 0.5) +

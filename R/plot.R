@@ -7,7 +7,8 @@ get_plot_data <- function(ref = "master") {
   full_data <- get_full_data()
   log_df <- get_log_df(ref = ref)
 
-  plot_data <- log_df %>%
+  plot_data <-
+    log_df %>%
     inner_join(full_data, by = "sha")
 
   plot_data
@@ -21,6 +22,27 @@ get_full_data <- function() {
   csv_data <- lapply(csv_files, read.csv, row.names = NULL, stringsAsFactors = FALSE)
   full_data <- bind_rows(csv_data, .id = "sha")
   tbl_df(full_data)
+}
+
+#' Compute calibrated time
+#'
+#' Median time divided by the time the `calibration` run takes.
+#'
+#' @param data A data frame with at least the columns `name` and `median_time`
+#' @export
+compute_calibrated_time <- function(data) {
+  data_fct <-
+  data %>%
+    mutate_(name = ~forcats::fct_inorder(name))
+
+  data_fct %>%
+    tidyr::spread_("name", "median_time") %>%
+    tidyr::gather_(., "name", "median_time",
+                   setdiff(levels(data_fct$name), c("calibration")),
+                   factor_key = TRUE) %>%
+    tidyr::drop_na_("median_time") %>%
+    mutate(calibrated_time = median_time / calibration) %>%
+    select(-median_time, -calibration)
 }
 
 #' Detect jumps
