@@ -11,6 +11,7 @@ get_dplyr_benchmark_repo_url <- function() {
 dplyr_benchmark_repo_ <- eval(bquote(function(url = get_dplyr_benchmark_repo_url()) {
   temp_dir <- tempfile("dplyr.benchmark", fileext = ".git")
 
+  message("Cloning dplyr.benchmark from ", url)
   git("clone", shQuote(url), "--branch", "master",
       shQuote(temp_dir))
 
@@ -35,6 +36,9 @@ setup_git_config <- function(repo_dir) {
 
 #' @export
 collect_data_in_clone <- function(refs = commandArgs(TRUE)) {
+  # Make sure bare repo is cloned only once
+  dplyr_repo()
+
   repo <- dplyr_benchmark_repo()
   withr::with_dir(repo@path, collect_data(refs))
   commit_data(repo, refs)

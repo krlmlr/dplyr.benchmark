@@ -11,6 +11,7 @@ get_dplyr_repo_url <- function() {
 dplyr_repo_ <- eval(bquote(function(url = get_dplyr_repo_url()) {
   temp_dir <- tempfile("dplyr", fileext = ".git")
 
+  message("Cloning dplyr from ", url)
   git("clone", shQuote(url), "--bare", "--mirror",
       shQuote(temp_dir))
 
