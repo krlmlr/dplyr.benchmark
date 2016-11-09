@@ -11,6 +11,7 @@ get_dplyr_repo_url <- function() {
 dplyr_repo_ <- eval(bquote(function(url = get_dplyr_repo_url()) {
   temp_dir <- tempfile("dplyr", fileext = ".git")
 
+  message("Cloning dplyr from ", url)
   git("clone", shQuote(url), "--bare", "--mirror",
       shQuote(temp_dir))
 
@@ -68,9 +69,9 @@ log_to_df <- function(log) {
                commit_time = ~gsub(log_regex, "\\2", value) %>% as.POSIXct(format = "%Y-%m-%d %T %z"))
 }
 
-git <- function(...) {
+git <- function(..., dir = ".") {
   args <- c(...)
-  exit_code <- system2("git", args)
+  exit_code <- withr::with_dir(dir, system2("git", args))
   if (exit_code != 0) {
     stop("git ", paste(args, collapse = " "), " returned with exit status ", exit_code,
          call. = FALSE)
