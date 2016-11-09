@@ -68,9 +68,9 @@ log_to_df <- function(log) {
                commit_time = ~gsub(log_regex, "\\2", value) %>% as.POSIXct(format = "%Y-%m-%d %T %z"))
 }
 
-git <- function(...) {
+git <- function(..., dir = ".") {
   args <- c(...)
-  exit_code <- system2("git", args)
+  exit_code <- withr::with_dir(dir, system2("git", args))
   if (exit_code != 0) {
     stop("git ", paste(args, collapse = " "), " returned with exit status ", exit_code,
          call. = FALSE)

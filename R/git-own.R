@@ -11,8 +11,10 @@ get_dplyr_benchmark_repo_url <- function() {
 dplyr_benchmark_repo_ <- eval(bquote(function(url = get_dplyr_benchmark_repo_url()) {
   temp_dir <- tempfile("dplyr.benchmark", fileext = ".git")
 
-  git("clone", shQuote(url), "--bare", "--mirror",
+  git("clone", shQuote(url), "--branch", "master",
       shQuote(temp_dir))
+
+  setup_git_config(temp_dir)
 
   git2r::repository(temp_dir)
 }))
@@ -24,23 +26,8 @@ dplyr_benchmark_repo_ <- eval(bquote(function(url = get_dplyr_benchmark_repo_url
 #' @export
 dplyr_benchmark_repo <- memoise::memoise(dplyr_benchmark_repo_)
 
-dplyr_benchmark_clone_ <- function(repo = dplyr_benchmark_repo()) {
-  temp_dir <- tempfile("dplyr.benchmark")
-  on.exit(unlink(temp_dir, recursive = TRUE))
-
-  git("clone", shQuote(repo@path), shQuote(temp_dir))
-
-  setup_git_config(temp_dir)
-
-  on.exit(NULL)
-  temp_dir
-}
-
-dplyr_benchmark_clone <- memoise::memoise(dplyr_benchmark_clone_)
-
 setup_git_config <- function(repo_dir) {
   repo <- git2r::repository(repo_dir)
-
   git2r::config(
     repo,
     user.name = "Kirill Müller", user.email = "krlmlr+r@mailbox.org")
@@ -48,10 +35,8 @@ setup_git_config <- function(repo_dir) {
 
 #' @export
 collect_data_in_clone <- function(refs) {
-  repo_dir <- dplyr_benchmark_clone()
-  withr::with_dir(repo_dir, collect_data(refs))
-
-  repo <- git2r::repository(repo_dir)
+  repo <- dplyr_benchmark_repo()
+  withr::with_dir(repo@path, collect_data(refs))
   commit_data(repo, refs)
   push_data(repo)
 }
@@ -72,6 +57,5 @@ commit_data <- function(repo, refs) {
 }
 
 push_data <- function(repo) {
-  browser()
-  git2r::push(repo)
+  git("push", dir = repo@path)
 }
