@@ -1,9 +1,4 @@
----
-title: "Historical dplyr benchmark results"
-author: "Kirill Müller"
-output:
-  rmarkdown::html_document
----
+# Historical dplyr benchmark results
 
 ```{r echo = FALSE, results='hide', message=FALSE}
 r <- rprojroot::is_r_package$make_fix_file()
