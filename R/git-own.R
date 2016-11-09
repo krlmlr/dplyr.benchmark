@@ -42,15 +42,20 @@ setup_git_config <- function(repo_dir) {
 #'   command-line args
 #' - Commits and pushes
 #'
-#' @param refs `[character]`\cr Git references to collect benchmark data for
+#' @param ref `[character(1)]`\cr A Git refspec for dplyr revisions to test.
+#'   See help for `git parse-rev`, use `ref^!` to collect for a single revision.
 #'
 #' @export
-collect_data_in_clone <- function(refs = commandArgs(TRUE)) {
+collect_data_in_clone <- function(refs = commandArgs(TRUE)[[1]]) {
   # Make sure bare repo is cloned only once
-  dplyr_repo()
+  sha <- get_log(refs, dplyr_repo())
+
+  if (length(sha) == 0) {
+    stop("No revisions to test", call. = FALSE)
+  }
 
   repo <- dplyr_benchmark_repo()
-  withr::with_dir(repo@path, collect_data(refs))
+  withr::with_dir(repo@path, collect_data(sha))
   commit_data(repo, refs)
   push_data(repo)
 }
