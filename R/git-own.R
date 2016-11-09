@@ -65,10 +65,23 @@ collect_data_in_clone <- function(ref = "master", only_new = TRUE) {
   push_data(repo)
 }
 
-collect_data <- function(refs) {
+collect_data <- function(sha) {
+  assignments <- assign_tasks(sha)
+
   parallel::mclapply(
-    refs, function(ref) try(benchmark(ref)),
+    assignments, function(task) {
+      parallel::mcaffinity(task$task_id)
+      lapply(task$data, function(ref) try(benchmark(ref)))
+    },
     mc.cores = parallel::detectCores() - 1)
+}
+
+assign_tasks <- function(sha) {
+  task_id <- rep_len(seq.int(2, parallel::detectCores()), length(sha))
+  tibble(task_id, sha) %>%
+    tidyr::nest(-task_id) %>%
+    purrr::by_row(identity) %>%
+    .[[".out"]]
 }
 
 commit_data <- function(repo, refs) {
