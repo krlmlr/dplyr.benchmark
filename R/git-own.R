@@ -31,7 +31,7 @@ setup_git_config <- function(repo_dir) {
   repo <- git2r::repository(repo_dir)
   git2r::config(
     repo,
-    user.name = "Kirill Müller", user.email = "krlmlr+r@mailbox.org")
+    user.name = "Kirill M\u00fcller", user.email = "krlmlr+r@mailbox.org")
 }
 
 #' @export
