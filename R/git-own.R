@@ -71,7 +71,7 @@ collect_data <- function(sha) {
   parallel::mclapply(
     assignments, function(task) {
       parallel::mcaffinity(task$task_id)
-      lapply(task$data, function(ref) try(benchmark(ref)))
+      lapply(task$data$sha, function(ref) try(benchmark(ref)))
     },
     mc.cores = parallel::detectCores() - 1)
 }
