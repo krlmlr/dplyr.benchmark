@@ -15,13 +15,17 @@ get_plot_data <- function(ref = "master") {
 }
 
 get_full_data <- function() {
+  csv_data <- lapply(get_csv_files(), read.csv, row.names = NULL, stringsAsFactors = FALSE)
+  full_data <- bind_rows(csv_data, .id = "sha")
+  tbl_df(full_data)
+}
+
+get_csv_files <- function() {
   csv_files <- dir(system.file("benchmark", package = getPackageName(), mustWork = TRUE),
                    full.names = TRUE, pattern = glob2rx("*.csv"))
   names(csv_files) <- gsub("^.*[^0-9a-f]([0-9a-f]+)[.]csv$", "\\1",
                            as.character(csv_files))
-  csv_data <- lapply(csv_files, read.csv, row.names = NULL, stringsAsFactors = FALSE)
-  full_data <- bind_rows(csv_data, .id = "sha")
-  tbl_df(full_data)
+  csv_files
 }
 
 #' Compute calibrated time

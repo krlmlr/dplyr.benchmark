@@ -46,14 +46,19 @@ setup_git_config <- function(repo_dir) {
 #'   See help for `git parse-rev`, use `ref^!` to collect for a single revision.
 #'
 #' @export
-collect_data_in_clone <- function(refs = commandArgs(TRUE)[[1]]) {
+collect_data_in_clone <- function(refs = commandArgs(TRUE)[[1]], only_new = TRUE) {
   # Make sure bare repo is cloned only once
   sha <- get_log(refs, dplyr_repo())
+
+  if (only_new) {
+    sha <- setdiff(sha, names(get_csv_files()))
+  }
 
   if (length(sha) == 0) {
     stop("No revisions to test", call. = FALSE)
   }
 
+  message("Testing revisions:", paste0(substr(sha, 1, 7), collapse = ", "))
   repo <- dplyr_benchmark_repo()
   withr::with_dir(repo@path, collect_data(sha))
   commit_data(repo, refs)
