@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • dplyr.benchmark</title>
+<title>Automated data collection — collect_data_in_clone • dplyr.benchmark</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -34,7 +34,7 @@
   </head>
 
   <body>
-    <div class="container template-vignette-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -50,9 +50,6 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../articles/index.html">Articles</a>
 </li>
       </ul>
       
@@ -71,20 +68,41 @@
       
       </header>
 
-      <div class="page-header">
-  <h1>Vignette reference <small>version&nbsp;0.0-0</small></h1>
-</div>
-
-<div class="row">
-  <div class="col-md-9">
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <ul>
-        <li><a href="plot-benchmark.html">Historical dplyr benchmark results</a></li>
-      </ul>
+      <div class="row">
+  <div class="col-md-9 contents">
+    <div class="page-header">
+    <h1>Automated data collection</h1>
     </div>
+
+    
+    <p>Performs the following tasks:
+<ul>
+<li> Clones the <code>dplyr.benchmark</code> repository to a temporary directory
+</li>
+<li> Collects benchmark data from the given references, by default taken from
+command-line args
+</li>
+<li> Commits and pushes
+</li>
+</ul></p>
+    
+
+    <pre><span class='fu'>collect_data_in_clone</span>(<span class='kw'>refs</span> <span class='kw'>=</span> <span class='fu'>commandArgs</span>(<span class='fl'>TRUE</span>))</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <dl class="dl-horizontal">
+      <dt>refs</dt>
+      <dd><code>[character]</code> Git references to collect benchmark data for</dd>
+    </dl>
+    
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
+
   </div>
 </div>
 
