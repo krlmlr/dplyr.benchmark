@@ -38,15 +38,15 @@ setup_git_config <- function(repo_dir) {
 #'
 #' Performs the following tasks:
 #' - Clones the `dplyr.benchmark` repository to a temporary directory
-#' - Collects benchmark data from the given references, by default taken from
-#'   command-line args
+#' - Collects benchmark data from the given references, by default all
+#'   references in master that haven't been collected yet
 #' - Commits and pushes
 #'
 #' @param ref `[character(1)]`\cr A Git refspec for dplyr revisions to test.
 #'   See help for `git parse-rev`, use `ref^!` to collect for a single revision.
 #'
 #' @export
-collect_data_in_clone <- function(refs = commandArgs(TRUE)[[1]], only_new = TRUE) {
+collect_data_in_clone <- function(refs = "master", only_new = TRUE) {
   # Make sure bare repo is cloned only once
   sha <- get_log(refs, dplyr_repo())
 
