@@ -34,6 +34,16 @@ setup_git_config <- function(repo_dir) {
     user.name = "Kirill M\u00fcller", user.email = "krlmlr+r@mailbox.org")
 }
 
+#' Automated data collection
+#'
+#' Performs the following tasks:
+#' - Clones the `dplyr.benchmark` repository to a temporary directory
+#' - Collects benchmark data from the given references, by default taken from
+#'   command-line args
+#' - Commits and pushes
+#'
+#' @param refs `[character]`\cr Git references to collect benchmark data for
+#'
 #' @export
 collect_data_in_clone <- function(refs = commandArgs(TRUE)) {
   # Make sure bare repo is cloned only once
