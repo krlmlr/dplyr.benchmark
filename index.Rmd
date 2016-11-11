@@ -3,7 +3,7 @@
 ```{r echo = FALSE, results='hide', message=FALSE}
 r <- rprojroot::is_r_package$make_fix_file()
 
-library(dplyr.benchmark)
+devtools::load_all()
 library(dplyr)
 library(ggplot2)
 knitr::opts_chunk$set(echo = FALSE)
