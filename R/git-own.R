@@ -63,7 +63,7 @@ collect_data_in_clone <- function(ref = "master", only_new = TRUE) {
   message("Testing revisions:", paste0(substr(sha, 1, 7), collapse = ", "))
   repo <- dplyr_benchmark_repo()
   withr::with_dir(repo@path, collect_data(sha))
-  commit_data(repo, sha)
+  commit_data(repo, ref, sha)
   push_data(repo)
 }
 
@@ -96,12 +96,12 @@ assign_tasks <- function(sha) {
     .[[".out"]]
 }
 
-commit_data <- function(repo, refs) {
+commit_data <- function(repo, ref, sha) {
   git2r::add(repo, "inst/benchmark")
   if (length(git2r::status(repo, unstaged = FALSE, untracked = FALSE)$staged) > 0) {
     git2r::commit(repo, paste0(
-      "Updated data from references:\n\n",
-      paste0("hadley/dplyr@", refs, collapse = "\n")))
+      "Updated data from ", ref, ":\n\n",
+      paste0("hadley/dplyr@", sha, collapse = "\n")))
   } else {
     message("Nothing to commit")
   }
