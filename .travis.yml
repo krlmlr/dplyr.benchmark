@@ -58,6 +58,7 @@ deploy:
 
 #r_github_packages
 r_github_packages:
+- slowkow/ggrepel
 
 #r_packages
 r_packages:
