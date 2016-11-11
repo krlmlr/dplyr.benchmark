@@ -54,9 +54,12 @@
       hall_of_fame_df, by = "playerID")), anti_join.dplyr_dt = quote(anti_join(master_dt, 
       hall_of_fame_dt, by = "playerID")), bind_rows.dplyr_df = quote(bind_rows(batting_df, 
       batting_df)), bind_rows.base = quote(rbind(batting_df, batting_df)))
-  mb <- lapply(quoted_calls, function(call) {
-    tryCatch(microbenchmark::microbenchmark(list = list(call), times = 7), error = function(e) tibble::tribble(~expr, 
-      ~time))
+  mb <- Map(names(quoted_calls), quoted_calls, f = function(name, call) {
+    message(name)
+    tryCatch(microbenchmark::microbenchmark(list = list(call), times = 7), error = function(e) {
+      message(name, " failed")
+      tibble::tribble(~expr, ~time)
+    })
   })
   saveRDS(mb, commandArgs(trailingOnly = TRUE)[[1]], compress = FALSE)
 }

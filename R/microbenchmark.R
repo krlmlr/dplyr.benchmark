@@ -30,12 +30,17 @@ get_microbenchmark_code <- function() {
   load_code <- "devtools::load_all()"
   pre_code <- deparse(pre_code[[2]], width.cutoff = 500)
   quoted_calls_code <- deparse(quoted_calls, width.cutoff = 500, control = "quoteExpressions")
-  microbenchmark_code <- deparse(quote(lapply(
+  microbenchmark_code <- deparse(quote(Map(
+    names(quoted_calls),
     quoted_calls,
-    function(call) {
+    f = function(name, call) {
+      message(name)
       tryCatch(
         microbenchmark::microbenchmark(list = list(call), times = 7),
-        error = function(e) tibble::tribble(~expr, ~time)
+        error = function(e) {
+          message(name, " failed")
+          tibble::tribble(~expr, ~time)
+        }
       )
     }
   )))
