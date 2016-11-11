@@ -9,3 +9,4 @@
 ^README-.*\.png$
 ^tic\.R$
 ^index\.html$
+^index\.Rmd$
