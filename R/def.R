@@ -1,13 +1,10 @@
 pre_code <- ~{
   ## ---- echo = FALSE, message = FALSE--------------------------------------
   try(dplyr:::init_logging("NONE"))
-  library(data.table)
-  try(library(dtplyr))
   library(Lahman)
 
   ## ----setup---------------------------------------------------------------
   batting_df <- tbl_df(Batting)
-  try(batting_dt <- tbl_dt(Batting))
 
   ## ------------------------------------------------------------------------
   mean_ <- function(x) .Internal(mean(x))
@@ -16,6 +13,14 @@ pre_code <- ~{
   master_df <- tbl_df(Master[c("playerID", "birthYear")])
   hall_of_fame_df <- tbl_df(HallOfFame[HallOfFame$inducted == "Y",
                                        c("playerID", "votedBy", "category")])
+}
+
+pre_code_dt <- ~{
+  library(data.table)
+  try(library(dtplyr))
+
+  try(batting_dt <- tbl_dt(Batting))
+
   try({
     master_dt <- tbl_dt(Master[c("playerID", "birthYear")])
     hall_of_fame_dt <- tbl_dt(HallOfFame[HallOfFame$inducted == "Y",
@@ -82,7 +87,7 @@ code <- ~{
   )
 
   windowed_reg = lazyeval::dots_capture(
-    regular  = batting_df %>% group_by(playerID) %>% mutate(r = min_rank_(AB))
+    dplyr_df  = batting_df %>% group_by(playerID) %>% mutate(r = min_rank_(AB))
   )
 
   ## ---join-----------------------------------------------------------------
@@ -115,14 +120,17 @@ code <- ~{
   )
 }
 
-extract_quoted_calls <- function(code) {
+extract_quoted_calls <- function(code, algo) {
   expression_list <- as.list(code[[2]])[-1]
   call_names <- lapply(expression_list, "[[", 2) %>% vapply(as.character, character(1)) # name objects
   calls <- lapply(expression_list, "[[", 3) %>% lapply(eval) # calls
   names(calls) <- call_names
 
   single_calls <- unlist(calls)
-  lapply(single_calls, "[[", 2)
+
+  selected_calls <- c("calibration", grep(paste0("[.]", algo, "$"), names(single_calls), value = TRUE))
+
+  lapply(single_calls[selected_calls], "[[", 2)
 }
 
-quoted_calls <- extract_quoted_calls(code)
+quoted_calls <- extract_quoted_calls(code, "dplyr_df")
