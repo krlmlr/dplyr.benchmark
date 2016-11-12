@@ -24,8 +24,14 @@ plot_data %>%
   tidyr::nest(-name) %>%
   purrr::by_row(
     function(plot_data_slice) {
-      ggplot(plot_data_slice$data[[1]] %>% filter(!is.na(kind)), aes(x = commit_id, y = calibrated_time)) +
-        geom_line(data = plot_data_slice$data[[1]]) +
+      data <- plot_data_slice$data[[1]]
+      max_y <- min(
+        tail(data$calibrated_time, 1) * 2,
+        max(data$calibrated_time)
+      )
+
+      ggplot(data %>% filter(!is.na(kind)), aes(x = commit_id, y = calibrated_time)) +
+        geom_line(data = data) +
         geom_point(aes(color = kind)) +
         ggrepel::geom_label_repel(aes(label = substr(sha, 1, 5), color = kind), alpha = 0.8) +
         scale_y_continuous(limits = c(0, NA)) +
