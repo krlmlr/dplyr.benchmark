@@ -34,7 +34,7 @@ plot_data %>%
         geom_line(data = data) +
         geom_point(aes(color = kind)) +
         ggrepel::geom_label_repel(aes(label = substr(sha, 1, 5), color = kind), alpha = 0.8) +
-        scale_y_continuous(limits = c(0, NA)) +
+        scale_y_continuous(limits = c(0, max_y), oob = function(x, ...) x) +
         ggtitle(plot_data_slice$name)
     }) %>%
   .$.out
