@@ -1,12 +1,12 @@
 Package: dplyr.benchmark
-Title: What the Package Does (one line, title case)
+Title: Run Time Benchmarks for the 'dplyr' Packagei
 Version: 0.0-0
 Authors@R: 
     person(given = "Kirill",
            family = "Müller",
            role = c("aut", "cre"),
            email = "krlmlr+r@mailbox.org")
-Description: What the package does (one paragraph).
+Description: Contains time measurement data and code to detect sudden changes.
 Imports: 
     covr,
     devtools,
