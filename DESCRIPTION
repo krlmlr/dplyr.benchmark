@@ -1,5 +1,5 @@
 Package: dplyr.benchmark
-Title: Run Time Benchmarks for the 'dplyr' Packagei
+Title: Run Time Benchmarks for the 'dplyr' Package
 Version: 0.0-0
 Authors@R: 
     person(given = "Kirill",
