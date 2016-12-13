@@ -1,0 +1,15 @@
+"name","median_time"
+"calibration",2368978766
+"summarise_mean.dplyr_df",114288084
+"summarise_mean_reg.dplyr_df",669899873
+"arrange.dplyr_df",84228176
+"filter.dplyr_df",769635077
+"mutate.dplyr_df",1043167225
+"mutate2.dplyr_df",702841757
+"windowed.dplyr_df",166241638
+"windowed_reg.dplyr_df",1066238220
+"left_join.dplyr_df",4470040
+"inner_join.dplyr_df",4541639
+"semi_join.dplyr_df",7257001
+"anti_join.dplyr_df",6908307
+"bind_rows.dplyr_df",33361543
