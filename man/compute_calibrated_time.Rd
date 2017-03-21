@@ -12,4 +12,3 @@ compute_calibrated_time(data)
 \description{
 Median time divided by the time the \code{calibration} run takes.
 }
-

@@ -12,4 +12,3 @@ dplyr_benchmark_repo(url = get_dplyr_benchmark_repo_url())
 \description{
 Get a dplyr.benchmark repo
 }
-

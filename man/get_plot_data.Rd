@@ -12,4 +12,3 @@ get_plot_data(ref = "master")
 \description{
 Get plot data
 }
-

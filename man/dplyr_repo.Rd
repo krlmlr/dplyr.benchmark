@@ -12,4 +12,3 @@ dplyr_repo(url = get_dplyr_repo_url())
 \description{
 Get a dplyr repo
 }
-

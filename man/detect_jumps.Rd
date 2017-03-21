@@ -16,4 +16,3 @@ detect_jumps(plot_data)
 \description{
 Detect jumps
 }
-

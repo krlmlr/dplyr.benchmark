@@ -22,4 +22,3 @@ references in master that haven't been collected yet
 \item Commits and pushes
 }
 }
-

@@ -14,4 +14,3 @@ get_log_df(ref = "master", repo = dplyr_repo())
 \description{
 Get a dataframe with dplyr log entries
 }
-
