@@ -1,0 +1,7 @@
+"name","median_time"
+"calibration",2528528100
+"left_join.dplyr_df",1560500
+"inner_join.dplyr_df",1154000
+"semi_join.dplyr_df",6960400
+"anti_join.dplyr_df",7683400
+"bind_rows.dplyr_df",29453500
