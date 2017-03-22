@@ -1,4 +1,7 @@
 {
+  dir.create(".lib")
+  .libPaths(c(normalizePath(".lib"), .libPaths()))
+  devtools::install_deps()
   devtools::load_all()
   {
     try(dplyr:::init_logging("NONE"))

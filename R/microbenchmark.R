@@ -27,7 +27,12 @@ do_run_microbenchmark <- function() {
 }
 
 get_microbenchmark_code <- function() {
-  load_code <- "devtools::load_all()"
+  load_code <- c(
+    'dir.create(".lib")',
+    '.libPaths(c(normalizePath(".lib"), .libPaths()))',
+    "devtools::install_deps()",
+    "devtools::load_all()"
+  )
   pre_code <- deparse(pre_code[[2]], width.cutoff = 500)
   quoted_calls_code <- deparse(quoted_calls, width.cutoff = 500, control = "quoteExpressions")
   microbenchmark_code <- deparse(quote(Map(
