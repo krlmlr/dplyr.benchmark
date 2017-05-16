@@ -22,7 +22,7 @@ plot_data <-
 ```{r}
 plot_data %>%
   tidyr::nest(-name) %>%
-  purrr::by_row(
+  purrrlyr::by_row(
     function(plot_data_slice) {
       data <- plot_data_slice$data[[1]]
       max_y <- min(

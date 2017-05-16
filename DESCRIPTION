@@ -18,7 +18,7 @@ Imports:
     memoise,
     methods,
     microbenchmark,
-    purrr,
+    purrrlyr,
     tibble,
     tidyr,
     tsoutliers,

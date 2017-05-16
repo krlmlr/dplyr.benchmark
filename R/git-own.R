@@ -92,7 +92,7 @@ assign_tasks <- function(sha) {
   task_id <- rep_len(seq.int(2, parallel::detectCores()), length(sha))
   tibble(task_id, sha) %>%
     tidyr::nest(-task_id) %>%
-    purrr::by_row(identity) %>%
+    purrrlyr::by_row(identity) %>%
     .[[".out"]]
 }
 
